@@ -9,6 +9,7 @@ import com.choiceeat.backend.domain.user.entity.User;
 import com.choiceeat.backend.domain.user.exception.UserErrorCode;
 import com.choiceeat.backend.domain.user.repository.UserRepository;
 import com.choiceeat.backend.global.exception.BaseException;
+import com.choiceeat.backend.global.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
     public SignUpResponse signUp(SignUpRequest request) {
@@ -52,6 +54,7 @@ public class UserService {
             throw new BaseException(UserErrorCode.USER_PASSWORD_MISMATCH);
         }
 
-        return LoginResponse.from(user);
+        String accessToken = jwtTokenProvider.createAccessToken(user);
+        return LoginResponse.from(user, accessToken);
     }
 }
