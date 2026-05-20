@@ -1,5 +1,8 @@
 package com.choiceeat.backend.domain.history.entity;
 
+import com.choiceeat.backend.domain.restaurant.entity.Restaurant;
+import com.choiceeat.backend.domain.restaurantPick.entity.RestaurantPick;
+import com.choiceeat.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,12 +29,18 @@ public class History {
     @Column(name = "selected_at", nullable = false, updatable = false)
     private LocalDateTime selectedAt;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    // User와의 N:1 단방향 매핑
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(name = "restaurant_id", nullable = false)
-    private Long restaurantId;
+    // Restaurant과의 N:1 단방향 매핑
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private Restaurant restaurant;
 
-    @Column(name = "restaurant_pick_id", nullable = false)
-    private Long restaurantPickId;
+    // RestaurantPick과의 1:1 단방향 매핑
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_pick_id", nullable = false)
+    private RestaurantPick restaurantPick;
 }
