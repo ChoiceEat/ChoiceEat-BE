@@ -1,5 +1,6 @@
-package com.choiceeat.domain;
+package com.choiceeat.backend.domain.restaurantPick.entity;
 
+import com.choiceeat.backend.domain.condition.entity.Condition;
 import com.choiceeat.backend.domain.restaurant.entity.Restaurant;
 import com.choiceeat.backend.domain.restaurantPick.entity.PickType;
 import com.choiceeat.backend.domain.user.entity.User;
@@ -42,7 +43,7 @@ public class RestaurantPick {
     // Condition과의 N:1 단방향 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "condition_id", nullable = false)
-    private com.choiceeat.domain.Condition condition;
+    private Condition condition;
 
     // Restaurant와의 N:1 단방향 매핑
     @ManyToOne(fetch = FetchType.LAZY)

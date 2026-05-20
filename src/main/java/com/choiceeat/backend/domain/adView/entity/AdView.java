@@ -1,5 +1,7 @@
-package com.choiceeat.domain;
+package com.choiceeat.backend.domain.adView.entity;
 
+import com.choiceeat.backend.domain.advertisement.entity.Advertisement;
+import com.choiceeat.backend.domain.restaurantPick.entity.RestaurantPick;
 import com.choiceeat.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,7 +30,7 @@ public class AdView {
     // Advertisement와의 N:1 단방향 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "advertisement_id", nullable = false)
-    private com.choiceeat.domain.Advertisement advertisement;
+    private Advertisement advertisement;
 
     // User와의 N:1 단방향 매핑
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,7 +41,7 @@ public class AdView {
     // 첫 진입 광고 등에서는 Null일 수 있으므로 Nullable 허용
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_pick_id", nullable = true)
-    private com.choiceeat.domain.RestaurantPick restaurantPick;
+    private RestaurantPick restaurantPick;
 
     @PrePersist
     protected void onCreate() {

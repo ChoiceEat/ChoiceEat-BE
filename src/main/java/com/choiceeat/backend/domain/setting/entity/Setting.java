@@ -1,4 +1,4 @@
-package com.choiceeat.domain;
+package com.choiceeat.backend.domain.setting.entity;
 
 import com.choiceeat.backend.domain.user.entity.User;
 import jakarta.persistence.*;

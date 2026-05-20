@@ -1,4 +1,4 @@
-package com.choiceeat.domain;
+package com.choiceeat.backend.domain.advertisement.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

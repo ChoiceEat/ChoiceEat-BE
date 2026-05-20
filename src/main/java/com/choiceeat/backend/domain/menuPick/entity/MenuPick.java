@@ -1,4 +1,4 @@
-package com.choiceeat.domain;
+package com.choiceeat.backend.domain.menuPick.entity;
 
 import com.choiceeat.backend.domain.restaurant.entity.Restaurant;
 import jakarta.persistence.*;
