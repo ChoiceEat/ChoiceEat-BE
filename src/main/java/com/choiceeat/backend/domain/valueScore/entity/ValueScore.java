@@ -46,9 +46,6 @@ public class ValueScore {
     @Column(name = "calculated_at", nullable = false, updatable = false)
     private LocalDateTime calculatedAt;
 
-    @Column(name = "restaurant_id", nullable = false, unique = true)
-    private Long restaurantId;
-
     // Restaurant와의 1:1 단방향 매핑
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)

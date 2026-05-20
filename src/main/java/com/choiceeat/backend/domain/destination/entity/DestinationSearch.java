@@ -39,9 +39,6 @@ public class DestinationSearch {
     @Column(name = "searched_at", nullable = false, updatable = false)
     private LocalDateTime searchedAt;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
     // User와의 N:1 단방향 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

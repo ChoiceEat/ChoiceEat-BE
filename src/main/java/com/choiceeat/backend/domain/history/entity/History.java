@@ -29,23 +29,17 @@ public class History {
     @Column(name = "selected_at", nullable = false, updatable = false)
     private LocalDateTime selectedAt;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
-    @Column(name = "restaurant_id", nullable = false)
-    private Long restaurantId;
-
-    @Column(name = "restaurant_pick_id", nullable = false)
-    private Long restaurantPickId;
-
+    // User와의 N:1 단방향 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    // Restaurant과의 N:1 단방향 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
+    // RestaurantPick과의 1:1 단방향 매핑
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_pick_id", nullable = false)
     private RestaurantPick restaurantPick;
