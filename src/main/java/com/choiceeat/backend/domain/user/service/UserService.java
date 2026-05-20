@@ -3,6 +3,8 @@ package com.choiceeat.backend.domain.user.service;
 import com.choiceeat.backend.domain.user.dto.SignUpRequest;
 import com.choiceeat.backend.domain.user.dto.SignUpResponse;
 import com.choiceeat.backend.domain.user.dto.EmailCheckResponse;
+import com.choiceeat.backend.domain.user.dto.LoginRequest;
+import com.choiceeat.backend.domain.user.dto.LoginResponse;
 import com.choiceeat.backend.domain.user.entity.User;
 import com.choiceeat.backend.domain.user.exception.UserErrorCode;
 import com.choiceeat.backend.domain.user.repository.UserRepository;
@@ -40,5 +42,16 @@ public class UserService {
         boolean available = !userRepository.existsByEmail(email);
         String message = available ? "사용 가능한 이메일입니다." : "이미 사용 중인 이메일입니다.";
         return new EmailCheckResponse(available, message);
+    }
+
+    public LoginResponse login(LoginRequest request) {
+        User user = userRepository.findByEmail(request.email())
+                .orElseThrow(() -> new BaseException(UserErrorCode.USER_NOT_FOUND));
+
+        if (!passwordEncoder.matches(request.password(), user.getPassword())) {
+            throw new BaseException(UserErrorCode.USER_PASSWORD_MISMATCH);
+        }
+
+        return LoginResponse.from(user);
     }
 }
