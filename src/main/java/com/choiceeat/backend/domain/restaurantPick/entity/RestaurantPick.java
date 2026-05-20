@@ -1,6 +1,7 @@
 package com.choiceeat.domain;
 
 import com.choiceeat.backend.domain.restaurant.entity.Restaurant;
+import com.choiceeat.backend.domain.restaurantPick.entity.PickType;
 import com.choiceeat.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,10 +21,11 @@ public class RestaurantPick {
     @Column(name = "restaurant_pick_id")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "pick_type", nullable = false, length = 100)
-    private String pickType;
+    private PickType pickType; // ENUM 타입 (밸런스, 퀄리티, 가성비)
 
-    @Column(name = "rank_num", nullable = false) // rank는 SQL 예약어일 수 있으므로 컬럼명 변경 추천
+    @Column(name = "rank_num", nullable = false)
     private int rank;
 
     @Column(name = "is_rerolled", nullable = false)
@@ -32,23 +34,20 @@ public class RestaurantPick {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    // 외부 도메인 연관관계 매핑 (N:1)
+    // User와의 N:1 단방향 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    // Condition과의 N:1 단방향 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "condition_id", nullable = false)
     private com.choiceeat.domain.Condition condition;
 
+    // Restaurant와의 N:1 단방향 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
-
-    // ★ 가장 고난도였던 다시 뽑기 체인 추적용 자기 참조 (Self-Join, Null 허용)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rerolled_from_id", nullable = true)
-    private RestaurantPick rerolledFrom;
 
     @PrePersist
     protected void onCreate() {

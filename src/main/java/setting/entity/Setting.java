@@ -1,4 +1,4 @@
-package com.choiceeat.domain;
+package setting.entity;
 
 import com.choiceeat.backend.domain.user.entity.User;
 import jakarta.persistence.*;
@@ -27,7 +27,7 @@ public class Setting {
     @Column(name = "search_radius", nullable = false)
     private int searchRadius;
 
-    // User와의 1:1 단방향 매핑
+    // User와의 1:1 단방향 매핑 (설정 테이블이 외래키 user_id를 가짐)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

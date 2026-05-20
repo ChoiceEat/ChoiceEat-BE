@@ -1,5 +1,6 @@
 package com.choiceeat.backend.domain.destination.entity;
 
+import com.choiceeat.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,4 +41,9 @@ public class DestinationSearch {
 
     @Column(name = "user_id", nullable = false)
     private Long userId;
+
+    // User와의 N:1 단방향 매핑
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

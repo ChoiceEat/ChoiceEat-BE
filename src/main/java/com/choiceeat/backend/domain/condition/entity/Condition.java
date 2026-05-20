@@ -1,5 +1,6 @@
 package com.choiceeat.domain;
 
+import com.choiceeat.backend.domain.condition.entity.LocationType;
 import com.choiceeat.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,9 +30,9 @@ public class Condition {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "location_type", nullable = false)
-    private LocationType locationType; // ENUM 타입 (CURRENT, SEARCH 등)
+    private LocationType locationType; // ENUM 타입 (CURRENT, DESTINATION)
 
-    // User와의 N:1 매핑
+    // User와의 N:1 단방향 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

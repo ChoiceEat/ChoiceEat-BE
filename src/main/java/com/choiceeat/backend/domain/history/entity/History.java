@@ -1,5 +1,7 @@
 package com.choiceeat.backend.domain.history.entity;
 
+import com.choiceeat.backend.domain.restaurant.entity.Restaurant;
+import com.choiceeat.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,4 +36,16 @@ public class History {
 
     @Column(name = "restaurant_pick_id", nullable = false)
     private Long restaurantPickId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private Restaurant restaurant;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_pick_id", nullable = false)
+    private com.choiceeat.domain.RestaurantPick restaurantPick;
 }

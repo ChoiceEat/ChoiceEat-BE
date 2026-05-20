@@ -1,5 +1,6 @@
 package com.choiceeat.backend.domain.valueScore.entity;
 
+import com.choiceeat.backend.domain.restaurant.entity.Restaurant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,4 +48,9 @@ public class ValueScore {
 
     @Column(name = "restaurant_id", nullable = false, unique = true)
     private Long restaurantId;
+
+    // Restaurant와의 1:1 단방향 매핑
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private Restaurant restaurant;
 }

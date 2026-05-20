@@ -27,7 +27,7 @@ public class MenuPick {
     @Column(name = "rank_num", nullable = false)
     private int rankNum;
 
-    // 식당 도메인과의 N:1 연관관계 매핑
+    // Restaurant와의 N:1 단방향 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
