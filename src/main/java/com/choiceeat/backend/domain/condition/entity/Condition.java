@@ -1,6 +1,7 @@
 package com.choiceeat.backend.domain.condition.entity;
 
 import com.choiceeat.backend.domain.condition.entity.LocationType;
+import com.choiceeat.backend.domain.destination.entity.DestinationSearch;
 import com.choiceeat.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -36,4 +37,9 @@ public class Condition {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    // DestinationSearch와의 N:1 단방향 매핑]
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "destination_search_id", nullable = true) // ★ nullable = true로 설정하여 NULL 허용
+    private DestinationSearch destinationSearch;
 }
