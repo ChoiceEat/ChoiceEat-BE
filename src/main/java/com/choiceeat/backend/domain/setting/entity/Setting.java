@@ -24,8 +24,9 @@ public class Setting {
     @Column(name = "notification_enabled", nullable = false)
     private boolean notificationEnabled;
 
-    @Column(name = "search_radius", nullable = false)
-    private int searchRadius;
+    // DB 생성 시 TINYINT 적용
+    @Column(name = "search_radius_km", nullable = false, columnDefinition = "TINYINT UNSIGNED")
+    private int searchRadiusKm;
 
     // User와의 1:1 단방향 매핑
     @OneToOne(fetch = FetchType.LAZY)
