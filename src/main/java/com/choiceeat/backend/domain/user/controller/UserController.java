@@ -1,8 +1,6 @@
 package com.choiceeat.backend.domain.user.controller;
 
-import com.choiceeat.backend.domain.user.dto.EmailCheckResponse;
-import com.choiceeat.backend.domain.user.dto.SignUpRequest;
-import com.choiceeat.backend.domain.user.dto.SignUpResponse;
+import com.choiceeat.backend.domain.user.dto.*;
 import com.choiceeat.backend.domain.user.service.UserService;
 import com.choiceeat.backend.global.response.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,6 +29,13 @@ public class UserController {
     @Operation(summary = "이메일 중복확인", description = "이메일 중복 여부를 확인합니다.")
     public ResponseEntity<SuccessResponse<EmailCheckResponse>> checkEmail(@RequestParam String email) {
         EmailCheckResponse response = userService.checkEmailAvailability(email);
+        return ResponseEntity.ok(SuccessResponse.from(response));
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "로그인", description = "이메일과 비밀번호로 로그인합니다.")
+    public ResponseEntity<SuccessResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest request) {
+        LoginResponse response = userService.login(request);
         return ResponseEntity.ok(SuccessResponse.from(response));
     }
 }
