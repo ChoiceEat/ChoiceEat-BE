@@ -1,6 +1,7 @@
 package com.choiceeat.backend.domain.restaurantPick.entity;
 
 import com.choiceeat.backend.domain.condition.entity.Condition;
+import com.choiceeat.backend.domain.recommendation.entity.Recommendation;
 import com.choiceeat.backend.domain.restaurant.entity.Restaurant;
 import com.choiceeat.backend.domain.restaurantPick.entity.PickType;
 import com.choiceeat.backend.domain.user.entity.User;
@@ -29,29 +30,15 @@ public class RestaurantPick {
     @Column(name = "rank_num", nullable = false)
     private int rank;
 
-    @Column(name = "is_rerolled", nullable = false)
-    private boolean isRerolled;
-
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    // User와의 N:1 단방향 매핑
+    // Recommendation과의 N:1 단방향 매핑
+    // 어떤 추천 세션(묶음)에 속한 카드인지 매핑
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    // Condition과의 N:1 단방향 매핑
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "condition_id", nullable = false)
-    private Condition condition;
+    @JoinColumn(name = "recommendation_id", nullable = false)
+    private Recommendation recommendation;
 
     // Restaurant와의 N:1 단방향 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
 }
