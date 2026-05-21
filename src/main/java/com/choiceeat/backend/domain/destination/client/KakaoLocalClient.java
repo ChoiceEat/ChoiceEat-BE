@@ -4,6 +4,7 @@ import com.choiceeat.backend.domain.destination.dto.DestinationPlace;
 import com.choiceeat.backend.domain.destination.exception.DestinationErrorCode;
 import com.choiceeat.backend.global.exception.BaseException;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
+@Slf4j
 public class KakaoLocalClient {
 
     private final RestTemplate restTemplate = new RestTemplate();
@@ -71,6 +73,7 @@ public class KakaoLocalClient {
                     ))
                     .toList();
         } catch (RestClientResponseException e) {
+            log.error("카카오 API 에러 - 상태: {}, 응답: {}", e.getStatusCode(), e.getResponseBodyAsString(), e);
             int status = e.getStatusCode().value();
             if (status == 401) {
                 throw new BaseException(DestinationErrorCode.KAKAO_API_UNAUTHORIZED);
@@ -80,6 +83,7 @@ public class KakaoLocalClient {
             }
             throw new BaseException(DestinationErrorCode.KAKAO_API_CALL_FAILED);
         } catch (RestClientException e) {
+            log.error("카카오 API 호출 실패", e);
             throw new BaseException(DestinationErrorCode.KAKAO_API_CALL_FAILED);
         }
     }
