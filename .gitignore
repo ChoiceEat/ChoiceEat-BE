@@ -53,3 +53,10 @@ application-local.yml
 ### AI Tools ###
 .claude/
 .copilot/
+
+# 배포용 설정 파일 (비밀정보 포함)
+application-secret.yml
+
+# AWS 서버 관련 키 파일들
+*.pem
+*.ppk

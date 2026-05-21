@@ -1,0 +1,4 @@
+spring:
+  profiles:
+    active: prod
+# 여기엔 민감 정보 없음!
