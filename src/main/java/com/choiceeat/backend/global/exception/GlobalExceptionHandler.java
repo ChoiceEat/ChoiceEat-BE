@@ -2,6 +2,7 @@ package com.choiceeat.backend.global.exception;
 
 import com.choiceeat.backend.global.response.ErrorResponse;
 import com.choiceeat.backend.global.response.code.ErrorResponseCode;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.http.ResponseEntity;
@@ -97,6 +98,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse<?>> handleException(Exception e) {
         log.error("Exception : {}", e.getMessage(), e);
         ErrorResponse<?> errorResponse = ErrorResponse.from(ErrorResponseCode.SERVER_ERROR);
+        return ResponseEntity.status(errorResponse.getHttpStatus()).body(errorResponse);
+    }
+
+    // RequestParam / PathVariable 검증 실패 시 발생
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse<?>> handleConstraintViolationException(ConstraintViolationException e) {
+        log.error("ConstraintViolationException : {}", e.getMessage(), e);
+        ErrorResponse<?> errorResponse = ErrorResponse.from(ErrorResponseCode.INVALID_HTTP_MESSAGE_PARAMETER);
         return ResponseEntity.status(errorResponse.getHttpStatus()).body(errorResponse);
     }
 }
