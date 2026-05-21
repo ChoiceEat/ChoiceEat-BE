@@ -1,11 +1,4 @@
 spring:
-  config:
-    import: optional:application-secret.yml
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${secret.db.url}
-    username: ${secret.db.username}
-    password: ${secret.db.password}
-  jwt:
-    secret-key: ${secret.jwt.secret-key}
-    access-token-expiration: 3600000
+  profiles:
+    active: prod
+# 여기엔 민감 정보 없음!
