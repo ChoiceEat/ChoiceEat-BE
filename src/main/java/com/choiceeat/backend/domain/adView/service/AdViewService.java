@@ -11,6 +11,7 @@ import com.choiceeat.backend.domain.user.entity.User;
 import com.choiceeat.backend.domain.user.exception.UserErrorCode;
 import com.choiceeat.backend.domain.user.repository.UserRepository;
 import com.choiceeat.backend.global.exception.BaseException;
+import com.choiceeat.backend.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -26,10 +27,8 @@ public class AdViewService {
     private final UserRepository userRepository;
 
     public void saveAdView(AdViewRequestDto requestDto) {
-        // 1 현재 로그인한 유저 ID 가져오기
-        // 추후 SecurityUtil.getCurrentUserId() 로 리팩토링 예정
-        String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
-        Long userId = Long.valueOf(currentUserId);
+        // 1 현재 로그인한 유저 ID 가져오기 (유틸 클래스로 변경)
+        Long userId = SecurityUtil.getCurrentUserId();
 
         // 2 유저와 광고 엔티티 조회
         User user = userRepository.findById(userId)
