@@ -32,19 +32,20 @@ public class RecommendationService {
                 .filter(candidate -> candidate.distanceKm() <= DEFAULT_SEARCH_RADIUS_KM)
                 .toList();
 
-        if (exactCandidates.isEmpty()) {
-            throw new BaseException(RecommendationErrorCode.RECOMMENDATION_NOT_FOUND);
-        }
-
         // 보충 후보 추가
         List<ScoredRestaurant> candidates = new ArrayList<>(exactCandidates);
         appendFallbackCandidates(candidates, request);
+        if (candidates.size() < 3) {
+            throw new BaseException(RecommendationErrorCode.RECOMMENDATION_NOT_FOUND);
+        }
+
+        ScoreContext scoreContext = createScoreContext(candidates);
 
         // 추천 타입별 선정
         Map<String, ScoredRestaurant> recommendations = new LinkedHashMap<>();
-        addBestRecommendation(recommendations, "밸런스", candidates, this::calculateBalanceScore);
-        addBestRecommendation(recommendations, "가성비", candidates, this::calculateValueScore);
-        addBestRecommendation(recommendations, "퀄리티", candidates, this::calculateQualityScore);
+        addBestRecommendation(recommendations, "밸런스", candidates, candidate -> calculateBalanceScore(candidate, scoreContext));
+        addBestRecommendation(recommendations, "가성비", candidates, this::calculateValueRawScore);
+        addBestRecommendation(recommendations, "퀄리티", candidates, this::calculateQualityRawScore);
 
         // 응답 DTO 변환
         List<RecommendedRestaurantResponse> responseItems = recommendations.entrySet().stream()
@@ -138,7 +139,7 @@ public class RecommendationService {
         return budget.replace(" ", "");
     }
 
-    private double calculateValueScore(ScoredRestaurant candidate) {
+    private double calculateValueRawScore(ScoredRestaurant candidate) {
         MockRestaurant restaurant = candidate.restaurant();
         // 가성비 점수
         double priceScore = 100.0 - Math.min(restaurant.averagePrice() / 500.0, 80.0);
@@ -147,7 +148,7 @@ public class RecommendationService {
         return priceScore + reviewScore + restaurant.rating() * 4.0 - distancePenalty;
     }
 
-    private double calculateQualityScore(ScoredRestaurant candidate) {
+    private double calculateQualityRawScore(ScoredRestaurant candidate) {
         MockRestaurant restaurant = candidate.restaurant();
         // 퀄리티 점수
         double ratingScore = restaurant.rating() * 20.0;
@@ -156,15 +157,44 @@ public class RecommendationService {
         return ratingScore + reviewScore - distancePenalty;
     }
 
-    private double calculateBalanceScore(ScoredRestaurant candidate) {
+    private ScoreContext createScoreContext(List<ScoredRestaurant> candidates) {
+        double minValueScore = candidates.stream()
+                .mapToDouble(this::calculateValueRawScore)
+                .min()
+                .orElse(0.0);
+        double maxValueScore = candidates.stream()
+                .mapToDouble(this::calculateValueRawScore)
+                .max()
+                .orElse(0.0);
+        double minQualityScore = candidates.stream()
+                .mapToDouble(this::calculateQualityRawScore)
+                .min()
+                .orElse(0.0);
+        double maxQualityScore = candidates.stream()
+                .mapToDouble(this::calculateQualityRawScore)
+                .max()
+                .orElse(0.0);
+
+        return new ScoreContext(minValueScore, maxValueScore, minQualityScore, maxQualityScore);
+    }
+
+    private double calculateBalanceScore(ScoredRestaurant candidate, ScoreContext scoreContext) {
         // 밸런스 점수
-        return calculateValueScore(candidate) * 0.45
-                + calculateQualityScore(candidate) * 0.45
+        return normalize(calculateValueRawScore(candidate), scoreContext.minValueScore(), scoreContext.maxValueScore()) * 0.45
+                + normalize(calculateQualityRawScore(candidate), scoreContext.minQualityScore(), scoreContext.maxQualityScore()) * 0.45
                 + calculateDistanceScore(candidate.distanceKm()) * 0.10;
     }
 
+    private double normalize(double score, double minScore, double maxScore) {
+        if (Double.compare(minScore, maxScore) == 0) {
+            return 0.0;
+        }
+
+        return Math.max(0.0, Math.min(100.0, (score - minScore) / (maxScore - minScore) * 100.0));
+    }
+
     private double calculateDistanceScore(double distanceKm) {
-        return Math.max(0.0, 100.0 - distanceKm * 10.0);
+        return Math.max(0.0, Math.min(100.0, 100.0 - distanceKm * 10.0));
     }
 
     private double calculateDistanceKm(double startLatitude, double startLongitude, double endLatitude, double endLongitude) {
@@ -190,6 +220,14 @@ public class RecommendationService {
     private record PriceRange(
             int minPrice,
             int maxPrice
+    ) {
+    }
+
+    private record ScoreContext(
+            double minValueScore,
+            double maxValueScore,
+            double minQualityScore,
+            double maxQualityScore
     ) {
     }
 }
