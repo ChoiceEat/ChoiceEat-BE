@@ -15,7 +15,6 @@ public record MockRestaurant(
         Integer minPrice,
         Integer maxPrice,
         Integer averagePrice,
-        List<String> mainMenus,
         Double rating,
         Integer reviewCount,
         String businessHours,
