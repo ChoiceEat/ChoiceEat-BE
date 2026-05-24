@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface SettingRepository extends JpaRepository<Setting, Long> {
-    // 특정 유저의 설정 정보를 찾을 때 사용합니다.
+    // 특정 유저의 설정 정보를 찾을 때 사용.
     Optional<Setting> findByUser(User user);
 }

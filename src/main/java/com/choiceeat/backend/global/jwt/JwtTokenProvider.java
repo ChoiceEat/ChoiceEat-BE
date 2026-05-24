@@ -52,11 +52,10 @@ public class JwtTokenProvider {
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
 
-        if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
-            return null;
-        }
+        if (bearerToken == null) return null;
 
-        return bearerToken.substring(7);
+        // "Bearer "가 몇 번 들어오든 상관없이 깔끔하게 제거
+        return bearerToken.replace("Bearer ", "").trim();
     }
 
     public boolean validateToken(String token) {
