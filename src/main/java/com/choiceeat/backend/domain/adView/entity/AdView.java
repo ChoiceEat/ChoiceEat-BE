@@ -25,6 +25,11 @@ public class AdView {
     @Column(name = "completed", nullable = false)
     private boolean completed;
 
+    // 시청 기록 사용 여부 (재추천 시 사용 완료 처리됨.)
+    @Column(name = "used", nullable = false)
+    @Builder.Default
+    private boolean used = false;
+
     @Column(name = "viewed_at", nullable = false, updatable = false)
     private LocalDateTime viewedAt;
 
@@ -47,5 +52,9 @@ public class AdView {
     @PrePersist
     protected void onCreate() {
         this.viewedAt = LocalDateTime.now();
+    }
+
+    public void markAsUsed() {
+        this.used = true;
     }
 }
