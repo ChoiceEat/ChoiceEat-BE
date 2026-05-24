@@ -3,6 +3,7 @@ package com.choiceeat.backend.domain.setting.service;
 import com.choiceeat.backend.domain.setting.dto.SettingRequestDto;
 import com.choiceeat.backend.domain.setting.dto.SettingResponseDto;
 import com.choiceeat.backend.domain.setting.entity.Setting;
+import com.choiceeat.backend.domain.setting.exception.SettingErrorCode;
 import com.choiceeat.backend.domain.setting.repository.SettingRepository;
 import com.choiceeat.backend.domain.user.entity.User;
 import com.choiceeat.backend.global.exception.BaseException;
@@ -21,7 +22,7 @@ public class SettingService {
     // 1. 설정 조회
     public SettingResponseDto getSetting(User user) {
         Setting setting = settingRepository.findByUser(user)
-                .orElseThrow(() -> new BaseException(ErrorResponseCode.SETTING_NOT_FOUND));
+                .orElseThrow(() -> new BaseException(SettingErrorCode.SETTING_NOT_FOUND));
         return SettingResponseDto.from(setting);
     }
 
@@ -29,7 +30,7 @@ public class SettingService {
     @Transactional
     public void updateSetting(User user, SettingRequestDto request) {
         Setting setting = settingRepository.findByUser(user)
-                .orElseThrow(() -> new BaseException(ErrorResponseCode.SETTING_NOT_FOUND));
+                .orElseThrow(() -> new BaseException(SettingErrorCode.SETTING_NOT_FOUND));
 
         setting.updateSettings(
                 request.isLocationEnabled(),
