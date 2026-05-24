@@ -41,6 +41,17 @@ public class UserService {
 
         User savedUser = userRepository.save(user);
 
+        // 회원가입과 동시에 기본 설정값 세팅되도록 함.
+        Setting defaultSetting = Setting.builder()
+                .user(savedUser)
+                .locationEnabled(false)         // 기본값: 위치 서비스 비활성화
+                .notificationEnabled(false)     // 기본값: 알림 비활성화
+                .marketingEnabled(false)        // 기본값: 마케팅 수신 동의 비활성화
+                .searchRadiusKm(1)              // 기본값: 1km
+                .build();
+
+        settingRepository.save(defaultSetting); // DB에 저장
+
         return SignUpResponse.from(savedUser);
     }
 
