@@ -1,5 +1,7 @@
 package com.choiceeat.backend.domain.user.service;
 
+import com.choiceeat.backend.domain.setting.entity.Setting;
+import com.choiceeat.backend.domain.setting.repository.SettingRepository;
 import com.choiceeat.backend.domain.user.dto.SignUpRequest;
 import com.choiceeat.backend.domain.user.dto.SignUpResponse;
 import com.choiceeat.backend.domain.user.dto.EmailCheckResponse;
@@ -23,6 +25,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final SettingRepository settingRepository;
 
     @Transactional
     public SignUpResponse signUp(SignUpRequest request) {
@@ -37,6 +40,7 @@ public class UserService {
                 .build();
 
         User savedUser = userRepository.save(user);
+
         return SignUpResponse.from(savedUser);
     }
 

@@ -25,6 +25,9 @@ public class Setting {
     @Column(name = "notification_enabled", nullable = false)
     private boolean notificationEnabled;
 
+    @Column(name = "marketing_enabled", nullable = false)
+    private boolean marketingEnabled;
+
     // DB 생성 시 TINYINT 적용
     @Min(1)
     @Max(3)
@@ -37,9 +40,10 @@ public class Setting {
     private User user;
 
     // 비즈니스 메서드
-    public void updateSettings(boolean locationEnabled, boolean notificationEnabled, int searchRadiusKm) {
+    public void updateSettings(boolean locationEnabled, boolean notificationEnabled, boolean marketingEnabled, int searchRadiusKm) {
         this.locationEnabled = locationEnabled;
         this.notificationEnabled = notificationEnabled;
+        this.marketingEnabled = marketingEnabled;
         this.searchRadiusKm = searchRadiusKm;
     }
 }
