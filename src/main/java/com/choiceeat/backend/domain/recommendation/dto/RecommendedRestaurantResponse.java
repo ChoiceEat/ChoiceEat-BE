@@ -6,6 +6,7 @@ import java.util.List;
 
 public record RecommendedRestaurantResponse(
         String recommendationType,
+        String kakaoPlaceId,
         String placeName,
         String address,
         String roadAddress,
@@ -28,6 +29,7 @@ public record RecommendedRestaurantResponse(
     public static RecommendedRestaurantResponse from(String recommendationType, MockRestaurant restaurant, double distanceKm) {
         return new RecommendedRestaurantResponse(
                 recommendationType,
+                restaurant.kakaoPlaceId(),
                 restaurant.placeName(),
                 restaurant.address(),
                 restaurant.roadAddress(),

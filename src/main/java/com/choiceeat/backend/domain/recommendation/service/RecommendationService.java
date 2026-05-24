@@ -3,6 +3,7 @@ package com.choiceeat.backend.domain.recommendation.service;
 import com.choiceeat.backend.domain.recommendation.data.MockRestaurant;
 import com.choiceeat.backend.domain.recommendation.data.MockRestaurantData;
 import com.choiceeat.backend.domain.recommendation.dto.RecommendationRequest;
+import com.choiceeat.backend.domain.recommendation.dto.RecommendationRerollRequest;
 import com.choiceeat.backend.domain.recommendation.dto.RecommendationResponse;
 import com.choiceeat.backend.domain.recommendation.dto.RecommendedRestaurantResponse;
 import com.choiceeat.backend.domain.recommendation.exception.RecommendationErrorCode;
@@ -11,9 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.ToDoubleFunction;
 
 @Service
@@ -23,18 +26,49 @@ public class RecommendationService {
     private static final double DEFAULT_SEARCH_RADIUS_KM = 3.0; // TODO: 추후 설정 페이지에서 반경 선택 기능 붙으면 사용자 설정값으로 교체 예정
 
     public RecommendationResponse recommend(RecommendationRequest request) {
+        RecommendationCriteria criteria = new RecommendationCriteria(
+                request.menuType(),
+                request.mood(),
+                request.budget(),
+                request.latitude(),
+                request.longitude(),
+                Set.of()
+        );
+
+        return recommendByCriteria(criteria);
+    }
+
+    public RecommendationResponse reroll(RecommendationRerollRequest request) {
+        Set<String> excludedKakaoPlaceIds = request.excludedKakaoPlaceIds() == null
+                ? Set.of()
+                : new HashSet<>(request.excludedKakaoPlaceIds());
+
+        RecommendationCriteria criteria = new RecommendationCriteria(
+                request.menuType(),
+                request.mood(),
+                request.budget(),
+                request.latitude(),
+                request.longitude(),
+                excludedKakaoPlaceIds
+        );
+
+        return recommendByCriteria(criteria);
+    }
+
+    private RecommendationResponse recommendByCriteria(RecommendationCriteria criteria) {
         // 1차 후보 필터링
         List<ScoredRestaurant> exactCandidates = MockRestaurantData.findAll().stream()
-                .filter(restaurant -> restaurant.menuType().equals(request.menuType()))
-                .filter(restaurant -> containsMood(restaurant, request.mood()))
-                .filter(restaurant -> matchesBudget(restaurant, request.budget()))
-                .map(restaurant -> toScoredRestaurant(request, restaurant))
+                .filter(restaurant -> !criteria.excludedKakaoPlaceIds().contains(restaurant.kakaoPlaceId()))
+                .filter(restaurant -> restaurant.menuType().equals(criteria.menuType()))
+                .filter(restaurant -> containsMood(restaurant, criteria.mood()))
+                .filter(restaurant -> matchesBudget(restaurant, criteria.budget()))
+                .map(restaurant -> toScoredRestaurant(criteria, restaurant))
                 .filter(candidate -> candidate.distanceKm() <= DEFAULT_SEARCH_RADIUS_KM)
                 .toList();
 
         // 보충 후보 추가
         List<ScoredRestaurant> candidates = new ArrayList<>(exactCandidates);
-        appendFallbackCandidates(candidates, request);
+        appendFallbackCandidates(candidates, criteria);
         if (candidates.size() < 3) {
             throw new BaseException(RecommendationErrorCode.RECOMMENDATION_NOT_FOUND);
         }
@@ -57,35 +91,36 @@ public class RecommendationService {
                 .toList();
 
         return new RecommendationResponse(
-                request.menuType(),
-                request.mood(),
-                request.budget(),
+                criteria.menuType(),
+                criteria.mood(),
+                criteria.budget(),
                 responseItems
         );
     }
 
-    private void appendFallbackCandidates(List<ScoredRestaurant> candidates, RecommendationRequest request) {
+    private void appendFallbackCandidates(List<ScoredRestaurant> candidates, RecommendationCriteria criteria) {
         if (candidates.size() >= 3) {
             return;
         }
 
         // 조건 일부 일치 후보
         MockRestaurantData.findAll().stream()
-                .filter(restaurant -> restaurant.menuType().equals(request.menuType()))
-                .filter(restaurant -> containsMood(restaurant, request.mood())
-                        || matchesBudget(restaurant, request.budget()))
-                .map(restaurant -> toScoredRestaurant(request, restaurant))
+                .filter(restaurant -> !criteria.excludedKakaoPlaceIds().contains(restaurant.kakaoPlaceId()))
+                .filter(restaurant -> restaurant.menuType().equals(criteria.menuType()))
+                .filter(restaurant -> containsMood(restaurant, criteria.mood())
+                        || matchesBudget(restaurant, criteria.budget()))
+                .map(restaurant -> toScoredRestaurant(criteria, restaurant))
                 .filter(candidate -> candidate.distanceKm() <= DEFAULT_SEARCH_RADIUS_KM)
                 .filter(candidate -> !candidates.contains(candidate))
                 .forEach(candidates::add);
     }
 
-    private ScoredRestaurant toScoredRestaurant(RecommendationRequest request, MockRestaurant restaurant) {
+    private ScoredRestaurant toScoredRestaurant(RecommendationCriteria criteria, MockRestaurant restaurant) {
         return new ScoredRestaurant(
                 restaurant,
                 calculateDistanceKm(
-                        request.latitude(),
-                        request.longitude(),
+                        criteria.latitude(),
+                        criteria.longitude(),
                         restaurant.latitude(),
                         restaurant.longitude()
                 )
@@ -214,6 +249,16 @@ public class RecommendationService {
     private record ScoredRestaurant(
             MockRestaurant restaurant,
             double distanceKm
+    ) {
+    }
+
+    private record RecommendationCriteria(
+            String menuType,
+            String mood,
+            String budget,
+            Double latitude,
+            Double longitude,
+            Set<String> excludedKakaoPlaceIds
     ) {
     }
 
