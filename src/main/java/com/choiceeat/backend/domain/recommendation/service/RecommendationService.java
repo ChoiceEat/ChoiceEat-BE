@@ -111,7 +111,7 @@ public class RecommendationService {
                         || matchesBudget(restaurant, criteria.budget()))
                 .map(restaurant -> toScoredRestaurant(criteria, restaurant))
                 .filter(candidate -> candidate.distanceKm() <= DEFAULT_SEARCH_RADIUS_KM)
-                .filter(candidate -> !candidates.contains(candidate))
+                .filter(candidate -> !containsRestaurant(candidates, candidate.restaurant().kakaoPlaceId()))
                 .forEach(candidates::add);
     }
 
@@ -134,9 +134,21 @@ public class RecommendationService {
             ToDoubleFunction<ScoredRestaurant> scoreCalculator
     ) {
         candidates.stream()
-                .filter(candidate -> !recommendations.containsValue(candidate))
+                .filter(candidate -> !containsRestaurant(
+                        recommendations.values(),
+                        candidate.restaurant().kakaoPlaceId()
+                ))
                 .max(Comparator.comparingDouble(scoreCalculator))
                 .ifPresent(candidate -> recommendations.put(recommendationType, candidate));
+    }
+
+    private boolean containsRestaurant(Iterable<ScoredRestaurant> candidates, String kakaoPlaceId) {
+        for (ScoredRestaurant candidate : candidates) {
+            if (candidate.restaurant().kakaoPlaceId().equals(kakaoPlaceId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean matchesBudget(MockRestaurant restaurant, String budget) {
