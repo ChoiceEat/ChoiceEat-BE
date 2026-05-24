@@ -19,3 +19,7 @@ kakao:
   local:
     base-url: ${KAKAO_LOCAL_BASE_URL:https://dapi.kakao.com}
   rest-api-key: ${KAKAO_REST_API_KEY:}
+
+ad:
+  slots:
+    repick: "ca-pub-xxxxxxxxxxxxxxxx/slot3" # 다시 뽑기 광고만 관리
