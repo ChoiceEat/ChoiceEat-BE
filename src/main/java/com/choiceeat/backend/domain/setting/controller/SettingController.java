@@ -5,6 +5,7 @@ import com.choiceeat.backend.domain.setting.dto.SettingResponseDto;
 import com.choiceeat.backend.domain.setting.service.SettingService;
 import com.choiceeat.backend.domain.user.entity.User;
 import com.choiceeat.backend.global.annotation.CurrentUser; // 프로젝트에서 사용 중인 어노테이션
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/settings")
 @RequiredArgsConstructor
+@Tag(name = "Setting", description = "설정 API")
 public class SettingController {
 
     private final SettingService settingService;
