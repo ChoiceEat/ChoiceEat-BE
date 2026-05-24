@@ -3,6 +3,7 @@ package com.choiceeat.backend.domain.recommendation.data;
 import java.util.List;
 
 public record MockRestaurant(
+        String kakaoPlaceId,
         String placeName,
         String address,
         String roadAddress,
@@ -10,6 +11,7 @@ public record MockRestaurant(
         Double longitude,
         String phone,
         String placeUrl,
+        String imageUrl,
         String menuType,
         List<String> moodTags,
         Integer minPrice,
