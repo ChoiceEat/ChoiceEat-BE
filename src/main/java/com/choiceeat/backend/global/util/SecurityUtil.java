@@ -21,5 +21,6 @@ public final class SecurityUtil {
             return user.getUserId();
         }
 
-        throw new RuntimeException("인증 객체의 형식이 올바르지 않습니다.");    }
+        throw new RuntimeException("인증 객체의 형식이 올바르지 않습니다.");
+    }
 }

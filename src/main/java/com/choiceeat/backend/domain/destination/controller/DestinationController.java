@@ -28,7 +28,7 @@ public class DestinationController {
     public ResponseEntity<SuccessResponse<DestinationSearchResponse>> searchDestinations(
             @RequestParam @NotBlank(message = "query는 필수입니다.") String query
     ) {
-        DestinationSearchResponse response = destinationService.searchDestinations(query, 5);
+        DestinationSearchResponse response = destinationService.searchDestinations(query, 15);
         return ResponseEntity.ok(SuccessResponse.from(response));
     }
 }
