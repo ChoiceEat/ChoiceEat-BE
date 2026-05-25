@@ -1,11 +1,13 @@
 package com.choiceeat.backend.domain.recommendation.dto;
 
 import com.choiceeat.backend.domain.recommendation.data.MockRestaurant;
+import com.choiceeat.backend.domain.recommendation.type.RecommendationType;
 
 import java.util.List;
 
 public record RecommendedRestaurantResponse(
         String recommendationType,
+        String recommendationDescription,
         String kakaoPlaceId,
         String placeName,
         String address,
@@ -26,9 +28,10 @@ public record RecommendedRestaurantResponse(
         Boolean parkingAvailable,
         Double distanceKm
 ) {
-    public static RecommendedRestaurantResponse from(String recommendationType, MockRestaurant restaurant, double distanceKm) {
+    public static RecommendedRestaurantResponse from(RecommendationType recommendationType, MockRestaurant restaurant, double distanceKm) {
         return new RecommendedRestaurantResponse(
-                recommendationType,
+                recommendationType.getDisplayName(),
+                recommendationType.getDescription(),
                 restaurant.kakaoPlaceId(),
                 restaurant.placeName(),
                 restaurant.address(),

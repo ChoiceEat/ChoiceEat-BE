@@ -8,6 +8,7 @@ import com.choiceeat.backend.domain.recommendation.dto.RecommendationRerollReque
 import com.choiceeat.backend.domain.recommendation.dto.RecommendationResponse;
 import com.choiceeat.backend.domain.recommendation.dto.RecommendedRestaurantResponse;
 import com.choiceeat.backend.domain.recommendation.exception.RecommendationErrorCode;
+import com.choiceeat.backend.domain.recommendation.type.RecommendationType;
 import com.choiceeat.backend.domain.setting.entity.Setting;
 import com.choiceeat.backend.domain.setting.exception.SettingErrorCode;
 import com.choiceeat.backend.domain.setting.repository.SettingRepository;
@@ -93,10 +94,10 @@ public class RecommendationService {
         ScoreContext scoreContext = createScoreContext(candidates);
 
         // 추천 타입별 선정
-        Map<String, ScoredRestaurant> recommendations = new LinkedHashMap<>();
-        addBestRecommendation(recommendations, "밸런스", candidates, candidate -> calculateBalanceScore(candidate, scoreContext));
-        addBestRecommendation(recommendations, "가성비", candidates, this::calculateValueRawScore);
-        addBestRecommendation(recommendations, "퀄리티", candidates, this::calculateQualityRawScore);
+        Map<RecommendationType, ScoredRestaurant> recommendations = new LinkedHashMap<>();
+        addBestRecommendation(recommendations, RecommendationType.BALANCE, candidates, candidate -> calculateBalanceScore(candidate, scoreContext));
+        addBestRecommendation(recommendations, RecommendationType.VALUE, candidates, this::calculateValueRawScore);
+        addBestRecommendation(recommendations, RecommendationType.QUALITY, candidates, this::calculateQualityRawScore);
 
         // 응답 DTO 변환
         List<RecommendedRestaurantResponse> responseItems = recommendations.entrySet().stream()
@@ -155,8 +156,8 @@ public class RecommendationService {
     }
 
     private void addBestRecommendation(
-            Map<String, ScoredRestaurant> recommendations,
-            String recommendationType,
+            Map<RecommendationType, ScoredRestaurant> recommendations,
+            RecommendationType recommendationType,
             List<ScoredRestaurant> candidates,
             ToDoubleFunction<ScoredRestaurant> scoreCalculator
     ) {
