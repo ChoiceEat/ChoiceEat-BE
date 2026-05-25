@@ -12,7 +12,7 @@ public final class SecurityUtil {
     public static Long getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null || authentication.getPrincipal() == null || authentication.getPrincipal().equals("anonymousUser")) {
+        if (authentication == null || authentication.getName() == null || authentication.getName().equals("anonymousUser")) {
             throw new RuntimeException("인증 정보가 없습니다.");
         }
 
@@ -21,6 +21,5 @@ public final class SecurityUtil {
             return user.getUserId();
         }
 
-        return Long.valueOf(authentication.getName());
-    }
+        throw new RuntimeException("인증 객체의 형식이 올바르지 않습니다.");    }
 }
