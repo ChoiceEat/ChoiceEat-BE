@@ -1,5 +1,6 @@
 package com.choiceeat.backend.domain.recommendation.service;
 
+import com.choiceeat.backend.domain.adView.service.AdViewService;
 import com.choiceeat.backend.domain.recommendation.data.MockRestaurant;
 import com.choiceeat.backend.domain.recommendation.data.MockRestaurantData;
 import com.choiceeat.backend.domain.recommendation.dto.RecommendationRequest;
@@ -8,6 +9,7 @@ import com.choiceeat.backend.domain.recommendation.dto.RecommendationResponse;
 import com.choiceeat.backend.domain.recommendation.dto.RecommendedRestaurantResponse;
 import com.choiceeat.backend.domain.recommendation.exception.RecommendationErrorCode;
 import com.choiceeat.backend.global.exception.BaseException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,10 +22,13 @@ import java.util.Set;
 import java.util.function.ToDoubleFunction;
 
 @Service
+@RequiredArgsConstructor
 public class RecommendationService {
 
     private static final double EARTH_RADIUS_KM = 6371.0;
     private static final double DEFAULT_SEARCH_RADIUS_KM = 3.0; // TODO: 추후 설정 페이지에서 반경 선택 기능 붙으면 사용자 설정값으로 교체 예정
+
+    private final AdViewService adViewService;
 
     public RecommendationResponse recommend(RecommendationRequest request) {
         RecommendationCriteria criteria = new RecommendationCriteria(
@@ -39,6 +44,8 @@ public class RecommendationService {
     }
 
     public RecommendationResponse reroll(RecommendationRerollRequest request) {
+        adViewService.consumeCompletedAdViewForReroll();
+
         Set<String> excludedKakaoPlaceIds = request.excludedKakaoPlaceIds() == null
                 ? Set.of()
                 : new HashSet<>(request.excludedKakaoPlaceIds());

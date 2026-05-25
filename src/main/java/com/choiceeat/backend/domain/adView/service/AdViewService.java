@@ -14,7 +14,6 @@ import com.choiceeat.backend.global.config.AdConfig;
 import com.choiceeat.backend.global.exception.BaseException;
 import com.choiceeat.backend.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,5 +51,17 @@ public class AdViewService {
                 .build();
 
         adViewRepository.save(adView);
+    }
+
+    public void consumeCompletedAdViewForReroll() {
+        Long userId = SecurityUtil.getCurrentUserId();
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BaseException(UserErrorCode.USER_NOT_FOUND));
+
+        AdView adView = adViewRepository.findFirstByUserAndCompletedTrueAndUsedFalse(user)
+                .orElseThrow(() -> new BaseException(AdViewErrorCode.COMPLETED_AD_VIEW_NOT_FOUND));
+
+        adView.markAsUsed();
     }
 }
