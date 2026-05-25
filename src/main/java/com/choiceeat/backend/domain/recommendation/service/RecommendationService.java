@@ -8,7 +8,14 @@ import com.choiceeat.backend.domain.recommendation.dto.RecommendationRerollReque
 import com.choiceeat.backend.domain.recommendation.dto.RecommendationResponse;
 import com.choiceeat.backend.domain.recommendation.dto.RecommendedRestaurantResponse;
 import com.choiceeat.backend.domain.recommendation.exception.RecommendationErrorCode;
+import com.choiceeat.backend.domain.setting.entity.Setting;
+import com.choiceeat.backend.domain.setting.exception.SettingErrorCode;
+import com.choiceeat.backend.domain.setting.repository.SettingRepository;
+import com.choiceeat.backend.domain.user.entity.User;
+import com.choiceeat.backend.domain.user.exception.UserErrorCode;
+import com.choiceeat.backend.domain.user.repository.UserRepository;
 import com.choiceeat.backend.global.exception.BaseException;
+import com.choiceeat.backend.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +33,10 @@ import java.util.function.ToDoubleFunction;
 public class RecommendationService {
 
     private static final double EARTH_RADIUS_KM = 6371.0;
-    private static final double DEFAULT_SEARCH_RADIUS_KM = 3.0; // TODO: 추후 설정 페이지에서 반경 선택 기능 붙으면 사용자 설정값으로 교체 예정
 
     private final AdViewService adViewService;
+    private final SettingRepository settingRepository;
+    private final UserRepository userRepository;
 
     public RecommendationResponse recommend(RecommendationRequest request) {
         RecommendationCriteria criteria = new RecommendationCriteria(
@@ -37,15 +45,14 @@ public class RecommendationService {
                 request.budget(),
                 request.latitude(),
                 request.longitude(),
-                Set.of()
+                Set.of(),
+                getCurrentUserSearchRadiusKm()
         );
 
         return recommendByCriteria(criteria);
     }
 
     public RecommendationResponse reroll(RecommendationRerollRequest request) {
-        adViewService.consumeCompletedAdViewForReroll();
-
         Set<String> excludedKakaoPlaceIds = request.excludedKakaoPlaceIds() == null
                 ? Set.of()
                 : new HashSet<>(request.excludedKakaoPlaceIds());
@@ -56,10 +63,13 @@ public class RecommendationService {
                 request.budget(),
                 request.latitude(),
                 request.longitude(),
-                excludedKakaoPlaceIds
+                excludedKakaoPlaceIds,
+                getCurrentUserSearchRadiusKm()
         );
 
-        return recommendByCriteria(criteria);
+        RecommendationResponse response = recommendByCriteria(criteria);
+        adViewService.consumeCompletedAdViewForReroll();
+        return response;
     }
 
     private RecommendationResponse recommendByCriteria(RecommendationCriteria criteria) {
@@ -70,7 +80,7 @@ public class RecommendationService {
                 .filter(restaurant -> containsMood(restaurant, criteria.mood()))
                 .filter(restaurant -> matchesBudget(restaurant, criteria.budget()))
                 .map(restaurant -> toScoredRestaurant(criteria, restaurant))
-                .filter(candidate -> candidate.distanceKm() <= DEFAULT_SEARCH_RADIUS_KM)
+                .filter(candidate -> candidate.distanceKm() <= criteria.searchRadiusKm())
                 .toList();
 
         // 보충 후보 추가
@@ -117,9 +127,19 @@ public class RecommendationService {
                 .filter(restaurant -> containsMood(restaurant, criteria.mood())
                         || matchesBudget(restaurant, criteria.budget()))
                 .map(restaurant -> toScoredRestaurant(criteria, restaurant))
-                .filter(candidate -> candidate.distanceKm() <= DEFAULT_SEARCH_RADIUS_KM)
+                .filter(candidate -> candidate.distanceKm() <= criteria.searchRadiusKm())
                 .filter(candidate -> !containsRestaurant(candidates, candidate.restaurant().kakaoPlaceId()))
                 .forEach(candidates::add);
+    }
+
+    private int getCurrentUserSearchRadiusKm() {
+        Long userId = SecurityUtil.getCurrentUserId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BaseException(UserErrorCode.USER_NOT_FOUND));
+        Setting setting = settingRepository.findByUser(user)
+                .orElseThrow(() -> new BaseException(SettingErrorCode.SETTING_NOT_FOUND));
+
+        return setting.getSearchRadiusKm();
     }
 
     private ScoredRestaurant toScoredRestaurant(RecommendationCriteria criteria, MockRestaurant restaurant) {
@@ -277,7 +297,8 @@ public class RecommendationService {
             String budget,
             Double latitude,
             Double longitude,
-            Set<String> excludedKakaoPlaceIds
+            Set<String> excludedKakaoPlaceIds,
+            int searchRadiusKm
     ) {
     }
 
