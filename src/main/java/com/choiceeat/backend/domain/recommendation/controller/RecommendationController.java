@@ -1,6 +1,7 @@
 package com.choiceeat.backend.domain.recommendation.controller;
 
 import com.choiceeat.backend.domain.recommendation.dto.RecommendationRequest;
+import com.choiceeat.backend.domain.recommendation.dto.RecommendationRerollRequest;
 import com.choiceeat.backend.domain.recommendation.dto.RecommendationResponse;
 import com.choiceeat.backend.domain.recommendation.service.RecommendationService;
 import com.choiceeat.backend.global.response.SuccessResponse;
@@ -28,6 +29,15 @@ public class RecommendationController {
             @Valid @RequestBody RecommendationRequest request
     ) {
         RecommendationResponse response = recommendationService.recommend(request);
+        return ResponseEntity.ok(SuccessResponse.from(response));
+    }
+
+    @PostMapping("/reroll")
+    @Operation(summary = "식당 재추천", description = "기존 추천 식당을 제외하고 같은 조건에서 가성비/퀄리티/밸런스 식당을 다시 추천합니다.")
+    public ResponseEntity<SuccessResponse<RecommendationResponse>> reroll(
+            @Valid @RequestBody RecommendationRerollRequest request
+    ) {
+        RecommendationResponse response = recommendationService.reroll(request);
         return ResponseEntity.ok(SuccessResponse.from(response));
     }
 }
