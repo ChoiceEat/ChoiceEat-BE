@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/destinations")
 @RequiredArgsConstructor
 @Validated
-@Tag(name = "Destination", description = "목적지 검색 API")
+@Tag(name = "Destination", description = "목적지 API")
 public class DestinationController {
 
     private final DestinationService destinationService;
