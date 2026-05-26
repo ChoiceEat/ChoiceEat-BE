@@ -22,19 +22,29 @@ public class HistoryListResponse {
     @Schema(description = "카테고리", example = "한식")
     private String category;
 
-    @Schema(description = "거리(m)", example = "350")
-    private int distance;
+    @Schema(description = "픽 타입", example = "밸런스 픽")
+    private String pickType;
 
     @Schema(description = "선택된 시간", example = "2026-05-24T14:30:00")
     private LocalDateTime selectedAt;
 
     public static HistoryListResponse from(History history) {
+        // ✅ 1. 누락되었던 픽 타입 추출 및 기존 getDisplayName() 활용
+        String reason = (history.getRestaurantPick() != null && history.getRestaurantPick().getPickType() != null)
+                ? history.getRestaurantPick().getPickType().getDisplayName()
+                : "일반 픽";
+
+        // ✅ 2. 카테고리 null 방어 코드
+        String category = history.getRestaurant().getCategory() != null
+                ? history.getRestaurant().getCategory()
+                : "미지정";
+
         return HistoryListResponse.builder()
                 .historyId(history.getHistoryId())
                 .restaurantName(history.getRestaurant().getName())
-                .imageUrl("https://example.com/default.jpg") // Restaurant의 이미지 필드값 임의 설정
-                .category(history.getRestaurant().getCategory())
-                .distance(350) // Restaurant에 거리 필드가 없으므로 우선 350m 더미 고정
+                .imageUrl("https://example.com/default.jpg")
+                .category(category)
+                .pickType(reason) // ✅ 3. 조립 완료!
                 .selectedAt(history.getSelectedAt())
                 .build();
     }
