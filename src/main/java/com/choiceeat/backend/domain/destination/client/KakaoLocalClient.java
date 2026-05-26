@@ -64,6 +64,7 @@ public class KakaoLocalClient {
 
             return response.getBody().documents().stream()
                     .map(document -> new DestinationPlace(
+                            document.id(),
                             document.placeName(),
                             document.addressName(),
                             document.roadAddressName(),
@@ -105,6 +106,7 @@ public class KakaoLocalClient {
     }
 
     private record KakaoKeywordDocument(
+            @JsonProperty("id") String id,
             @JsonProperty("place_name") String placeName,
             @JsonProperty("address_name") String addressName,
             @JsonProperty("road_address_name") String roadAddressName,
