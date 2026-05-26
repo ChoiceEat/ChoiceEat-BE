@@ -28,7 +28,7 @@ public class SettingService {
 
     // 2. 설정 수정
     @Transactional
-    public void updateSetting(User user, SettingRequestDto request) {
+    public SettingResponseDto updateSetting(User user, SettingRequestDto request) {
         Setting setting = settingRepository.findByUser(user)
                 .orElseThrow(() -> new BaseException(SettingErrorCode.SETTING_NOT_FOUND));
 
@@ -39,5 +39,6 @@ public class SettingService {
                 request.getSearchRadiusKm()
         );
         // 트랜잭션 종료 시 자동 반영(Dirty Checking)
+        return SettingResponseDto.from(setting);
     }
 }
