@@ -21,6 +21,12 @@ public class MenuPick {
     @Column(name = "menu_name", nullable = false)
     private String menuName;
 
+    @Column(nullable = false)
+    private Integer price;
+
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
+
     @Column(name = "mention_count", nullable = false)
     private int mentionCount;
 
