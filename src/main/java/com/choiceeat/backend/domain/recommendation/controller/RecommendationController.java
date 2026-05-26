@@ -24,7 +24,7 @@ public class RecommendationController {
     private final RecommendationService recommendationService;
 
     @PostMapping
-    @Operation(summary = "식당 추천", description = "메뉴, 분위기, 예산, 목적지 좌표를 기준으로 가성비/퀄리티/밸런스 식당을 추천합니다.")
+    @Operation(summary = "식당 추천", description = "메뉴, 분위기, 예산, 사용자가 선택한 목적지를 기준으로 가성비/퀄리티/밸런스 식당을 추천합니다.")
     public ResponseEntity<SuccessResponse<RecommendationResponse>> recommend(
             @Valid @RequestBody RecommendationRequest request
     ) {
@@ -33,7 +33,7 @@ public class RecommendationController {
     }
 
     @PostMapping("/reroll")
-    @Operation(summary = "식당 재추천", description = "기존 추천 식당을 제외하고 같은 조건에서 가성비/퀄리티/밸런스 식당을 다시 추천합니다.")
+    @Operation(summary = "식당 재추천", description = "기존 추천 식당을 제외하고 같은 조건과 사용자가 선택한 목적지 기준으로 식당을 다시 추천합니다.")
     public ResponseEntity<SuccessResponse<RecommendationResponse>> reroll(
             @Valid @RequestBody RecommendationRerollRequest request
     ) {

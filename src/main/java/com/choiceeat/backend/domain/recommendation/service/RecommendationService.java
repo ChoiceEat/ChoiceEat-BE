@@ -1,6 +1,8 @@
 package com.choiceeat.backend.domain.recommendation.service;
 
 import com.choiceeat.backend.domain.adView.service.AdViewService;
+import com.choiceeat.backend.domain.destination.entity.SelectedDestination;
+import com.choiceeat.backend.domain.destination.service.DestinationService;
 import com.choiceeat.backend.domain.recommendation.data.MockRestaurant;
 import com.choiceeat.backend.domain.recommendation.data.MockRestaurantData;
 import com.choiceeat.backend.domain.recommendation.dto.RecommendationRequest;
@@ -36,16 +38,18 @@ public class RecommendationService {
     private static final double EARTH_RADIUS_KM = 6371.0;
 
     private final AdViewService adViewService;
+    private final DestinationService destinationService;
     private final SettingRepository settingRepository;
     private final UserRepository userRepository;
 
     public RecommendationResponse recommend(RecommendationRequest request) {
+        SelectedDestination selectedDestination = getCurrentUserSelectedDestination();
         RecommendationCriteria criteria = new RecommendationCriteria(
                 request.menuType(),
                 request.mood(),
                 request.budget(),
-                request.latitude(),
-                request.longitude(),
+                selectedDestination.getLatitude(),
+                selectedDestination.getLongitude(),
                 Set.of(),
                 getCurrentUserSearchRadiusKm()
         );
@@ -54,6 +58,7 @@ public class RecommendationService {
     }
 
     public RecommendationResponse reroll(RecommendationRerollRequest request) {
+        SelectedDestination selectedDestination = getCurrentUserSelectedDestination();
         Set<String> excludedKakaoPlaceIds = request.excludedKakaoPlaceIds() == null
                 ? Set.of()
                 : new HashSet<>(request.excludedKakaoPlaceIds());
@@ -62,8 +67,8 @@ public class RecommendationService {
                 request.menuType(),
                 request.mood(),
                 request.budget(),
-                request.latitude(),
-                request.longitude(),
+                selectedDestination.getLatitude(),
+                selectedDestination.getLongitude(),
                 excludedKakaoPlaceIds,
                 getCurrentUserSearchRadiusKm()
         );
@@ -134,13 +139,21 @@ public class RecommendationService {
     }
 
     private int getCurrentUserSearchRadiusKm() {
-        Long userId = SecurityUtil.getCurrentUserId();
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new BaseException(UserErrorCode.USER_NOT_FOUND));
+        User user = getCurrentUser();
         Setting setting = settingRepository.findByUser(user)
                 .orElseThrow(() -> new BaseException(SettingErrorCode.SETTING_NOT_FOUND));
 
         return setting.getSearchRadiusKm();
+    }
+
+    private SelectedDestination getCurrentUserSelectedDestination() {
+        return destinationService.getSelectedDestinationEntity(getCurrentUser());
+    }
+
+    private User getCurrentUser() {
+        Long userId = SecurityUtil.getCurrentUserId();
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new BaseException(UserErrorCode.USER_NOT_FOUND));
     }
 
     private ScoredRestaurant toScoredRestaurant(RecommendationCriteria criteria, MockRestaurant restaurant) {

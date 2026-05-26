@@ -1,7 +1,6 @@
 package com.choiceeat.backend.domain.recommendation.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -14,12 +13,6 @@ public record RecommendationRerollRequest(
 
         @NotBlank(message = "예산은 필수입니다.")
         String budget,
-
-        @NotNull(message = "위도는 필수입니다.")
-        Double latitude,
-
-        @NotNull(message = "경도는 필수입니다.")
-        Double longitude,
 
         List<String> excludedKakaoPlaceIds
 ) {
