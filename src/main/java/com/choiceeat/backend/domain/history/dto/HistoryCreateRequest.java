@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class HistoryCreateRequest {
 
-    @Schema(description = "선택된 식당 ID", example = "1")
-    private Long restaurantId;
+    @Schema(description = "카카오 장소 ID", example = "10644213")
+    private String kakaoPlaceId;
 
-    @Schema(description = "선택된 레스토랑 픽(Pick) ID", example = "10")
-    private Long restaurantPickId;
+    @Schema(description = "추천 픽 종류 (밸런스, 가성비, 퀄리티)", example = "밸런스")
+    private String recommendationType;
 
 }

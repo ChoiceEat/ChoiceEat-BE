@@ -29,6 +29,7 @@ public record RecommendedRestaurantResponse(
         Double distanceKm
 ) {
     public static RecommendedRestaurantResponse from(RecommendationType recommendationType, MockRestaurant restaurant, double distanceKm) {
+
         return new RecommendedRestaurantResponse(
                 recommendationType.getDisplayName(),
                 recommendationType.getDescription(),
