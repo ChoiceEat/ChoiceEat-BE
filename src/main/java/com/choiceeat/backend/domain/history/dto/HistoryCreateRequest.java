@@ -13,4 +13,5 @@ public class HistoryCreateRequest {
 
     @Schema(description = "선택된 레스토랑 픽(Pick) ID", example = "10")
     private Long restaurantPickId;
+
 }
