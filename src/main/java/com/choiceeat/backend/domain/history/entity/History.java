@@ -40,7 +40,7 @@ public class History {
     private Restaurant restaurant;
 
     // RestaurantPick과의 1:1 단방향 매핑
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_pick_id", nullable = false)
     private RestaurantPick restaurantPick;
 }
