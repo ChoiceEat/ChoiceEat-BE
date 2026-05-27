@@ -26,8 +26,8 @@ public class Advertisement {
     @Column(name = "slot_id", nullable = false)
     private String slotId;
 
-    @Column(name = "image_url", nullable = false, columnDefinition = "TEXT")
-    private String imageUrl;
+    // @Column(name = "image_url", nullable = false, columnDefinition = "TEXT")
+    // private String imageUrl;
 
     @Column(name = "link_url", columnDefinition = "TEXT")
     private String linkUrl;

@@ -8,14 +8,14 @@ import lombok.Getter;
 @Builder
 public class AdvertisementResponseDto {
     private Long id;
-    private String imageUrl;
+    private String videoUrl;
     private String linkUrl;
 
     // 엔티티를 DTO로 변환하는 정적 메서드
     public static AdvertisementResponseDto from(Advertisement advertisement) {
         return AdvertisementResponseDto.builder()
                 .id(advertisement.getId())
-                .imageUrl(advertisement.getImageUrl())
+                .videoUrl(advertisement.getVideoUrl())
                 .linkUrl(advertisement.getLinkUrl())
                 .build();
     }
