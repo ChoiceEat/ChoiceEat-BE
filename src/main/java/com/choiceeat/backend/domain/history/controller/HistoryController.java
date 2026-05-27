@@ -1,5 +1,6 @@
 package com.choiceeat.backend.domain.history.controller;
 
+import com.choiceeat.backend.domain.history.dto.HistoryCreateRequest;
 import com.choiceeat.backend.domain.history.dto.HistoryHomeResponse;
 import com.choiceeat.backend.domain.history.dto.HistoryListResponse;
 import com.choiceeat.backend.domain.history.service.HistoryService;
@@ -10,9 +11,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -36,4 +36,16 @@ public class HistoryController {
         List<HistoryListResponse> response = historyService.getFullHistories(user);
         return ResponseEntity.ok(SuccessResponse.from(response));
     }
+
+    @PostMapping
+    @Operation(summary = "히스토리 저장", description = "식당 추천 선택 완료 시 해당 식당과 픽 정보를 히스토리에 저장합니다.")
+    public ResponseEntity<SuccessResponse<String>> createHistory(
+            @CurrentUser User user,
+            @RequestBody HistoryCreateRequest request) {
+
+        historyService.createHistory(user, request);
+
+        return ResponseEntity.ok(SuccessResponse.from("히스토리가 성공적으로 저장되었습니다."));
+    }
+
 }
