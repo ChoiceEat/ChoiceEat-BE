@@ -2,6 +2,7 @@ package com.choiceeat.backend.domain.user.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record SignUpRequest(
@@ -11,6 +12,7 @@ public record SignUpRequest(
 
         @NotBlank(message = "비밀번호는 필수입니다.")
         @Size(min = 8, max = 12, message = "비밀번호는 8~12자 사이여야 합니다.")
+        @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,12}$", message = "영문, 숫자를 이용하여 8~12 자리로 입력해주세요.")
         String password,
 
         @NotBlank(message = "닉네임은 필수입니다.")
