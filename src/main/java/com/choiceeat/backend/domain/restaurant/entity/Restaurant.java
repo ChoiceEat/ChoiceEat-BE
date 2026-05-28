@@ -22,6 +22,9 @@ public class Restaurant extends BaseEntity {
     @Column(name = "restaurant_id")
     private Long restaurantId;
 
+    @Column(name = "kakao_place_id")
+    private String kakaoPlaceId;
+
     @Column(nullable = false, length = 100)
     private String name;
 

@@ -1,34 +1,63 @@
 package com.choiceeat.backend.domain.recommendation.service;
 
 import com.choiceeat.backend.domain.adView.service.AdViewService;
+
 import com.choiceeat.backend.domain.destination.entity.SelectedDestination;
+
 import com.choiceeat.backend.domain.destination.service.DestinationService;
+
 import com.choiceeat.backend.domain.recommendation.data.MockRestaurant;
+
 import com.choiceeat.backend.domain.recommendation.data.MockRestaurantData;
+
 import com.choiceeat.backend.domain.recommendation.dto.RecommendationRequest;
+
 import com.choiceeat.backend.domain.recommendation.dto.RecommendationRerollRequest;
+
 import com.choiceeat.backend.domain.recommendation.dto.RecommendationResponse;
+
 import com.choiceeat.backend.domain.recommendation.dto.RecommendedRestaurantResponse;
+
 import com.choiceeat.backend.domain.recommendation.exception.RecommendationErrorCode;
+
 import com.choiceeat.backend.domain.recommendation.type.RecommendationType;
+
 import com.choiceeat.backend.domain.setting.entity.Setting;
+
 import com.choiceeat.backend.domain.setting.exception.SettingErrorCode;
+
 import com.choiceeat.backend.domain.setting.repository.SettingRepository;
+
 import com.choiceeat.backend.domain.user.entity.User;
+
 import com.choiceeat.backend.domain.user.exception.UserErrorCode;
+
 import com.choiceeat.backend.domain.user.repository.UserRepository;
+
 import com.choiceeat.backend.global.exception.BaseException;
+
 import com.choiceeat.backend.global.util.SecurityUtil;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
+
+
 import java.util.ArrayList;
+
 import java.util.Comparator;
+
 import java.util.HashSet;
+
 import java.util.LinkedHashMap;
+
 import java.util.List;
+
 import java.util.Map;
+
 import java.util.Set;
+
 import java.util.function.ToDoubleFunction;
 
 @Service
@@ -36,7 +65,6 @@ import java.util.function.ToDoubleFunction;
 public class RecommendationService {
 
     private static final double EARTH_RADIUS_KM = 6371.0;
-
     private final AdViewService adViewService;
     private final DestinationService destinationService;
     private final SettingRepository settingRepository;
@@ -53,7 +81,6 @@ public class RecommendationService {
                 Set.of(),
                 getCurrentUserSearchRadiusKm()
         );
-
         return recommendByCriteria(criteria);
     }
 
@@ -62,7 +89,6 @@ public class RecommendationService {
         Set<String> excludedKakaoPlaceIds = request.excludedKakaoPlaceIds() == null
                 ? Set.of()
                 : new HashSet<>(request.excludedKakaoPlaceIds());
-
         RecommendationCriteria criteria = new RecommendationCriteria(
                 request.menuType(),
                 request.mood(),
@@ -97,7 +123,6 @@ public class RecommendationService {
         }
 
         ScoreContext scoreContext = createScoreContext(candidates);
-
         // 추천 타입별 선정
         Map<RecommendationType, ScoredRestaurant> recommendations = new LinkedHashMap<>();
         addBestRecommendation(recommendations, RecommendationType.BALANCE, candidates, candidate -> calculateBalanceScore(candidate, scoreContext));
@@ -112,7 +137,6 @@ public class RecommendationService {
                         entry.getValue().distanceKm()
                 ))
                 .toList();
-
         return new RecommendationResponse(
                 criteria.menuType(),
                 criteria.mood(),
@@ -142,7 +166,6 @@ public class RecommendationService {
         User user = getCurrentUser();
         Setting setting = settingRepository.findByUser(user)
                 .orElseThrow(() -> new BaseException(SettingErrorCode.SETTING_NOT_FOUND));
-
         return setting.getSearchRadiusKm();
     }
 
@@ -258,7 +281,7 @@ public class RecommendationService {
                 .mapToDouble(this::calculateQualityRawScore)
                 .min()
                 .orElse(0.0);
-        double maxQualityScore = candidates.stream()
+        double maxQualityScore= candidates.stream()
                 .mapToDouble(this::calculateQualityRawScore)
                 .max()
                 .orElse(0.0);
@@ -277,7 +300,6 @@ public class RecommendationService {
         if (Double.compare(minScore, maxScore) == 0) {
             return 0.0;
         }
-
         return Math.max(0.0, Math.min(100.0, (score - minScore) / (maxScore - minScore) * 100.0));
     }
 
