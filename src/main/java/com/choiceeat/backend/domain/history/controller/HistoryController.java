@@ -8,6 +8,7 @@ import com.choiceeat.backend.domain.user.entity.User;
 import com.choiceeat.backend.global.annotation.CurrentUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class HistoryController {
     @Operation(summary = "히스토리 저장", description = "선택한 식당을 히스토리에 저장합니다.")
     @PostMapping
     public ResponseEntity<Void> createHistory(@CurrentUser User user,
-                                              @RequestBody HistoryCreateRequest request) {
+                                              @Valid @RequestBody HistoryCreateRequest request) {
         historyService.createHistory(user, request);
         return ResponseEntity.ok().build();
     }

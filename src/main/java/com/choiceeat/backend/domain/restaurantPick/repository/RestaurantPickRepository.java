@@ -1,6 +1,5 @@
 package com.choiceeat.backend.domain.restaurantPick.repository;
 
-import com.choiceeat.backend.domain.recommendation.type.RecommendationType;
 import com.choiceeat.backend.domain.restaurant.entity.Restaurant;
 import com.choiceeat.backend.domain.restaurantPick.entity.PickType;
 import com.choiceeat.backend.domain.restaurantPick.entity.RestaurantPick;
