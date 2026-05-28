@@ -2,14 +2,14 @@ package com.choiceeat.backend.domain.recommendation.data;
 
 import java.util.List;
 
-public class MockRestaurantData {
+public class SeedRestaurantData {
 
-    private MockRestaurantData() {
+    private SeedRestaurantData() {
     }
 
-    public static List<MockRestaurant> findAll() {
+    public static List<SeedRestaurant> findAll() {
         return List.of(
-                new MockRestaurant(
+                new SeedRestaurant(
                         "27226419",
                         "성북동면옥집",
                         "서울 성북구 성북동 330-105",
@@ -29,7 +29,7 @@ public class MockRestaurantData {
                         "12:00 - 22:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "8218085",
                         "성북동메밀수제비누룽지백숙",
                         "서울 성북구 성북동 281-1",
@@ -49,7 +49,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1755515956",
                         "태조감자국",
                         "서울 성북구 동선동1가 49",
@@ -69,7 +69,7 @@ public class MockRestaurantData {
                         "11:00 - 22:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "23300753",
                         "쌍다리돼지불백 본점",
                         "서울 성북구 성북동 109-2",
@@ -89,7 +89,7 @@ public class MockRestaurantData {
                         "11:30 - 21:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "17569573",
                         "삼청각 일화당",
                         "서울 성북구 성북동 330-115",
@@ -109,7 +109,7 @@ public class MockRestaurantData {
                         "11:00 - 22:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "7948105",
                         "성북동집",
                         "서울 성북구 성북동 91",
@@ -129,7 +129,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "21233686",
                         "동우설렁탕 본점",
                         "서울 성북구 안암동5가 15-25",
@@ -149,7 +149,7 @@ public class MockRestaurantData {
                         "12:00 - 22:30",
                         true
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "21526500",
                         "청수장",
                         "서울 성북구 정릉동 416-27",
@@ -169,7 +169,7 @@ public class MockRestaurantData {
                         "11:30 - 21:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1925267112",
                         "천막집",
                         "서울 성북구 동선동2가 53",
@@ -189,7 +189,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "24353265",
                         "공푸",
                         "서울 성북구 삼선동5가 299-10",
@@ -209,7 +209,7 @@ public class MockRestaurantData {
                         "12:00 - 22:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "25451287",
                         "애정마라샹궈 본점",
                         "서울 성북구 동선동1가 2-6",
@@ -229,7 +229,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         true
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "557188800",
                         "가부 본점",
                         "서울 성북구 삼선동4가 351-3",
@@ -249,7 +249,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "697084504",
                         "라라면가",
                         "서울 성북구 동선동2가 135-8",
@@ -269,7 +269,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "21401923",
                         "용초수",
                         "서울 성북구 안암동5가 12-70",
@@ -289,7 +289,7 @@ public class MockRestaurantData {
                         "11:00 - 22:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1841813748",
                         "와라와라양꼬치앤훠궈",
                         "서울 성북구 동선동1가 85-77",
@@ -309,7 +309,7 @@ public class MockRestaurantData {
                         "12:00 - 22:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "2108202354",
                         "짬뽕선수",
                         "서울 성북구 동선동1가 2-11",
@@ -329,7 +329,7 @@ public class MockRestaurantData {
                         "11:00 - 22:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "688654430",
                         "수저가",
                         "서울 성북구 안암동5가 104-17",
@@ -349,7 +349,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         true
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "721426198",
                         "가부 보문점",
                         "서울 성북구 보문동4가 77-2",
@@ -369,7 +369,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "7960698",
                         "송림원",
                         "서울 성북구 동소문동1가 123",
@@ -389,7 +389,7 @@ public class MockRestaurantData {
                         "11:00 - 22:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "8238823",
                         "금왕돈까스 본점",
                         "서울 성북구 성북동 256-2",
@@ -409,7 +409,7 @@ public class MockRestaurantData {
                         "11:00 - 22:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "7937741",
                         "서울왕돈까스 성북동본점",
                         "서울 성북구 성북동 131-85",
@@ -429,7 +429,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1271420842",
                         "우토",
                         "서울 성북구 동선동2가 54-1",
@@ -449,7 +449,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1746912410",
                         "온달왕돈까스",
                         "서울 성북구 동선동1가 92-8",
@@ -469,7 +469,7 @@ public class MockRestaurantData {
                         "12:00 - 22:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1540691570",
                         "긴자료코 성신여대점",
                         "서울 성북구 동선동3가 243",
@@ -489,7 +489,7 @@ public class MockRestaurantData {
                         "11:00 - 22:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1992081643",
                         "김태완스시 성신여대",
                         "서울 성북구 동소문동5가 118-15",
@@ -509,7 +509,7 @@ public class MockRestaurantData {
                         "12:00 - 22:30",
                         true
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "908523329",
                         "스시산 본관",
                         "서울 성북구 성북동1가 65",
@@ -529,7 +529,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1196036428",
                         "도쿄커틀릿",
                         "서울 성북구 동선동2가 131",
@@ -549,7 +549,7 @@ public class MockRestaurantData {
                         "12:00 - 22:30",
                         true
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "15917933",
                         "오박사네왕돈까스 본점",
                         "서울 성북구 성북동 131-32",
@@ -569,7 +569,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "456860336",
                         "서민스시",
                         "서울 성북구 장위동 66-323",
@@ -589,7 +589,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "2040703324",
                         "특별식당",
                         "서울 성북구 안암동5가 15-32",
@@ -609,7 +609,7 @@ public class MockRestaurantData {
                         "12:00 - 22:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "485306026",
                         "문화식당",
                         "서울 성북구 성북동 122-7",
@@ -629,7 +629,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "452915279",
                         "쵸이양식",
                         "서울 성북구 동선동1가 85-79",
@@ -649,7 +649,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "230989806",
                         "벤베누토",
                         "서울 성북구 동선동1가 92-20",
@@ -669,7 +669,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1177828422",
                         "빌라드코스테스",
                         "서울 성북구 하월곡동 46-85",
@@ -689,7 +689,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         true
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1039522002",
                         "르한스",
                         "서울 성북구 정릉동 918",
@@ -709,7 +709,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "26546805",
                         "버거파크",
                         "서울 성북구 동선동2가 10",
@@ -729,7 +729,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "573428715",
                         "부부셰프",
                         "서울 성북구 동소문동1가 48",
@@ -749,7 +749,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "974275602",
                         "라체나1907",
                         "서울 성북구 석관동 133-10",
@@ -769,7 +769,7 @@ public class MockRestaurantData {
                         "12:00 - 22:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "923778015",
                         "와이인",
                         "서울 성북구 삼선동3가 5-2",
@@ -789,7 +789,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "2114116437",
                         "보울 델리 앤 이터리",
                         "서울 성북구 성북동 240",
@@ -809,7 +809,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "20944335",
                         "옛날중국집",
                         "서울 성북구 성북동 184-2",
@@ -829,7 +829,7 @@ public class MockRestaurantData {
                         "11:00 - 21:00",
                         true
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "8200924",
                         "국시집",
                         "서울 성북구 성북동1가 9",
@@ -849,7 +849,7 @@ public class MockRestaurantData {
                         "11:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "24873082",
                         "명문막국수",
                         "서울 성북구 성북동1가 35-17",
@@ -869,7 +869,7 @@ public class MockRestaurantData {
                         "11:10 - 20:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "8129950",
                         "하단",
                         "서울 성북구 성북동 184-40",
@@ -889,7 +889,7 @@ public class MockRestaurantData {
                         "12:00 - 20:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "579222224",
                         "호랑이김밥",
                         "서울 성북구 성북동 184-90",
@@ -909,7 +909,7 @@ public class MockRestaurantData {
                         "10:00 - 18:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1852838507",
                         "한성대양꼬치",
                         "서울 성북구 동소문동2가 130",
@@ -929,7 +929,7 @@ public class MockRestaurantData {
                         "15:00 - 22:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "335111559",
                         "팔백집 본점",
                         "서울 성북구 동선동2가 172",
@@ -949,7 +949,7 @@ public class MockRestaurantData {
                         "11:30 - 22:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "399918679",
                         "동선식당",
                         "서울 성북구 동선동2가 65",
@@ -969,7 +969,7 @@ public class MockRestaurantData {
                         "11:00 - 22:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "26869649",
                         "김통",
                         "서울 성북구 동선동1가 120-14",
@@ -989,7 +989,7 @@ public class MockRestaurantData {
                         "12:30 - 22:50",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1597826671",
                         "라이라이라이 성신여대점",
                         "서울 성북구 동선동2가 135-12",
@@ -1009,7 +1009,7 @@ public class MockRestaurantData {
                         "10:00 - 20:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1008497143",
                         "치치 성신여대점",
                         "서울 성북구 동선동1가 68",
@@ -1029,7 +1029,7 @@ public class MockRestaurantData {
                         "17:30 - 05:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "15424746",
                         "샌드위치 하우스",
                         "서울 성북구 동선동3가 232",
@@ -1049,7 +1049,7 @@ public class MockRestaurantData {
                         "10:00 - 20:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "7866028",
                         "마늘과올리브 성신여대점",
                         "서울 성북구 동선동1가 85-69",
@@ -1069,7 +1069,7 @@ public class MockRestaurantData {
                         "11:00 - 21:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "27089788",
                         "윤휘식당",
                         "서울 성북구 동선동2가 135-21",
@@ -1089,7 +1089,7 @@ public class MockRestaurantData {
                         "11:00 - 21:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "571922427",
                         "오르비에토",
                         "서울 성북구 동선동2가 295",
@@ -1109,7 +1109,7 @@ public class MockRestaurantData {
                         "11:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1323483346",
                         "구스",
                         "서울 성북구 동선동2가 67",
@@ -1129,7 +1129,7 @@ public class MockRestaurantData {
                         "18:00 - 02:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "27495320",
                         "모두와",
                         "서울 성북구 동선동1가 85-63",
@@ -1149,7 +1149,7 @@ public class MockRestaurantData {
                         "10:00 - 21:0",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "13086789",
                         "고른햇살",
                         "서울 성북구 안암동5가 101-28",
@@ -1169,7 +1169,7 @@ public class MockRestaurantData {
                         "06:00 - 22:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1819200119",
                         "탱글이문어",
                         "서울 성북구 안암동5가 103-99",
@@ -1189,7 +1189,7 @@ public class MockRestaurantData {
                         "17:00 - 03:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "11160925",
                         "전통만두국",
                         "서울 성북구 안암동3가 99",
@@ -1209,7 +1209,7 @@ public class MockRestaurantData {
                         "11:00 - 20:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "13693145",
                         "북경양꼬치",
                         "서울 성북구 안암동5가 102-46",
@@ -1229,7 +1229,7 @@ public class MockRestaurantData {
                         "16:00 - 02:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "2134375760",
                         "언니네반점",
                         "서울 성북구 안암동5가 100-5",
@@ -1249,7 +1249,7 @@ public class MockRestaurantData {
                         "10:00 - 21:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "927297064",
                         "야마토텐동",
                         "서울 성북구 안암동5가 93-15",
@@ -1269,7 +1269,7 @@ public class MockRestaurantData {
                         "11:00 - 20:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "946837172",
                         "삼성통닭",
                         "서울 성북구 안암동5가 104-41",
@@ -1289,7 +1289,7 @@ public class MockRestaurantData {
                         "14:00 - 03:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "2074141616",
                         "나그네파전",
                         "서울 성북구 안암동5가 86-5",
@@ -1309,7 +1309,7 @@ public class MockRestaurantData {
                         "16:30 - 23:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "10501014",
                         "서울쌈냉면 고대점",
                         "서울 성북구 안암동5가 147-9",
@@ -1329,7 +1329,7 @@ public class MockRestaurantData {
                         "10:00 - 20:30",
                         true
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "60259859",
                         "이공김밥",
                         "서울 성북구 안암동5가 134-94",
@@ -1349,7 +1349,7 @@ public class MockRestaurantData {
                         "09:30 - 20:50",
                         true
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "21324889",
                         "맥도날드 안암점",
                         "서울 성북구 안암동5가 102-33",
@@ -1369,7 +1369,7 @@ public class MockRestaurantData {
                         "09:00 - 24:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "14512484",
                         "유자유김치떡볶이 본점",
                         "서울 성북구 안암동5가 102-37",
@@ -1389,7 +1389,7 @@ public class MockRestaurantData {
                         "10:30 - 03:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "15546985",
                         "BIYA부대찌개 본점",
                         "서울 성북구 안암동5가 15-16",
@@ -1409,7 +1409,7 @@ public class MockRestaurantData {
                         "10:30 - 20:50",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "24449631",
                         "별난주점 고대안암점",
                         "서울 성북구 안암동5가 102-44",
@@ -1429,7 +1429,7 @@ public class MockRestaurantData {
                         "17:00 - 04:00",
                         true
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1949561591",
                         "청년밥상문간",
                         "서울 성북구 정릉동 398-8",
@@ -1449,7 +1449,7 @@ public class MockRestaurantData {
                         "11:00 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "16819186",
                         "동방손칼국수",
                         "서울 성북구 정릉동 1013",
@@ -1469,7 +1469,7 @@ public class MockRestaurantData {
                         "10:00 - 21:30",
                         true
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "13007118",
                         "바람난오리궁뎅이",
                         "서울 성북구 정릉동 767-4",
@@ -1489,7 +1489,7 @@ public class MockRestaurantData {
                         "11:00 - 21:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "25671309",
                         "대왕유통직영 셀프민물장어",
                         "서울 성북구 정릉동 820-4",
@@ -1509,7 +1509,7 @@ public class MockRestaurantData {
                         "10:30 - 22:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "15796495",
                         "전주콩나물국밥 본점",
                         "서울 성북구 정릉동 284-11",
@@ -1529,7 +1529,7 @@ public class MockRestaurantData {
                         "08:00 - 22:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "186578604",
                         "정가네지짐이",
                         "서울 성북구 정릉동 106-3",
@@ -1549,7 +1549,7 @@ public class MockRestaurantData {
                         "16:00 - 23:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1962671869",
                         "할머니만두국",
                         "서울 성북구 정릉동 107-22",
@@ -1569,7 +1569,7 @@ public class MockRestaurantData {
                         "11:00 - 17:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "10380858",
                         "봉화묵집",
                         "서울 성북구 정릉동 488-1",
@@ -1589,7 +1589,7 @@ public class MockRestaurantData {
                         "1:00 - 20:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1536393758",
                         "마몽함박",
                         "서울 성북구 정릉동 289-50",
@@ -1609,7 +1609,7 @@ public class MockRestaurantData {
                         "11:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "10447001",
                         "산장두부촌",
                         "서울 성북구 정릉동 822-33",
@@ -1629,7 +1629,7 @@ public class MockRestaurantData {
                         "09:00 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1555591848",
                         "정릉곤드레밥",
                         "서울 성북구 정릉동 266-401",
@@ -1649,7 +1649,7 @@ public class MockRestaurantData {
                         "11:00 - 15:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "23296143",
                         "옛날칼국수",
                         "서울 성북구 정릉동 151-8",
@@ -1669,7 +1669,7 @@ public class MockRestaurantData {
                         "11:30 - 21:00",
                         true
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1371384450",
                         "미미가",
                         "서울 성북구 보문동7가 134-6",
@@ -1689,7 +1689,7 @@ public class MockRestaurantData {
                         "11:00 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1823707163",
                         "엽기꼼닭발",
                         "서울 성북구 보문동2가 131-2",
@@ -1709,7 +1709,7 @@ public class MockRestaurantData {
                         "15:00 - 01:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "17893699",
                         "백두한우곱창전문",
                         "서울 성북구 보문동7가 30",
@@ -1729,7 +1729,7 @@ public class MockRestaurantData {
                         "12:00 - 23:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "2050246779",
                         "제주고깃집 성북구청점",
                         "서울 성북구 보문동1가 9-8",
@@ -1749,7 +1749,7 @@ public class MockRestaurantData {
                         "11:00 - 23:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "7988170",
                         "안동반점",
                         "서울 성북구 보문동1가 53",
@@ -1769,7 +1769,7 @@ public class MockRestaurantData {
                         "11:00 - 15:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "10644213",
                         "영순관",
                         "서울 성북구 보문동2가 122",
@@ -1789,7 +1789,7 @@ public class MockRestaurantData {
                         "11:00 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "731249424",
                         "윤김밥",
                         "서울 성북구 보문동1가 118",
@@ -1809,7 +1809,7 @@ public class MockRestaurantData {
                         "09:00 - 20:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1702681001",
                         "보문 다판지",
                         "서울 성북구 보문동1가 29",
@@ -1829,7 +1829,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1649096796",
                         "풍천장어셀프직판장",
                         "서울 성북구 보문동7가 122",
@@ -1849,7 +1849,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "15623027",
                         "신진원",
                         "서울 성북구 보문동5가 51",
@@ -1869,7 +1869,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "25401969",
                         "모모곱창",
                         "서울 성북구 보문동2가 40",
@@ -1889,7 +1889,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "402903717",
                         "고기싸롱 보문역점",
                         "서울 성북구 보문동5가 3-1",
@@ -1909,7 +1909,7 @@ public class MockRestaurantData {
                         "11:30 - 21:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1016028633",
                         "금산닭집",
                         "서울 성북구 보문동4가 2-1",
@@ -1929,7 +1929,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         true
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "11744410",
                         "미운오리",
                         "서울 성북구 보문동2가 104",
@@ -1949,7 +1949,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "843250339",
                         "포썸",
                         "서울 성북구 동선동4가 111-1",
@@ -1969,7 +1969,7 @@ public class MockRestaurantData {
                         "10:30 - 21:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "389501703",
                         "프릭타이",
                         "서울 성북구 종암동 30-77",
@@ -1989,7 +1989,7 @@ public class MockRestaurantData {
                         "11:30 - 22:00",
                         true
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1328344498",
                         "고랭 돌곶이점",
                         "서울 성북구 석관동 340-177",
@@ -2009,7 +2009,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "192029925",
                         "동방",
                         "서울 성북구 동선동2가 23",
@@ -2029,7 +2029,7 @@ public class MockRestaurantData {
                         "11:00 - 21:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "12768652",
                         "포앤시드니 성신여대점",
                         "서울 성북구 동선동1가 84-1",
@@ -2049,7 +2049,7 @@ public class MockRestaurantData {
                         "10:00 - 22:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1300657734",
                         "포옹남 하월곡점",
                         "서울 성북구 하월곡동 90-1688",
@@ -2069,7 +2069,7 @@ public class MockRestaurantData {
                         "11:00 - 22:00",
                         true
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "2004094531",
                         "비타포",
                         "서울 성북구 동소문동1가 24",
@@ -2089,7 +2089,7 @@ public class MockRestaurantData {
                         "10:30 - 21:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "27778238",
                         "퍼스트38",
                         "서울 성북구 삼선동5가 219",
@@ -2109,7 +2109,7 @@ public class MockRestaurantData {
                         "11:30 - 22:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1605018985",
                         "누들아한타이 동덕여대점",
                         "서울 성북구 하월곡동 17-10",
@@ -2129,7 +2129,7 @@ public class MockRestaurantData {
                         "10:30 - 21:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "182767122",
                         "미분당 성신여대점",
                         "서울 성북구 동선동2가 29",
@@ -2149,7 +2149,7 @@ public class MockRestaurantData {
                         "10:30 - 21:30",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "1286204634",
                         "서울방콕",
                         "서울 성북구 동선동2가 271",
@@ -2169,7 +2169,7 @@ public class MockRestaurantData {
                         "11:30 - 22:00",
                         false
                 ),
-                new MockRestaurant(
+                new SeedRestaurant(
                         "758126508",
                         "리틀방콕 길음뉴타운점",
                         "서울 성북구 길음동 1284",

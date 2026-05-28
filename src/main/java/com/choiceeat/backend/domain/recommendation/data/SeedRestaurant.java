@@ -2,7 +2,7 @@ package com.choiceeat.backend.domain.recommendation.data;
 
 import java.util.List;
 
-public record MockRestaurant(
+public record SeedRestaurant(
         String kakaoPlaceId,
         String placeName,
         String address,
