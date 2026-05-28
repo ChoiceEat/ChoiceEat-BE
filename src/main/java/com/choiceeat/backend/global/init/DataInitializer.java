@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -22,18 +21,13 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        if (restaurantRepository.count() > 0) {
-            return;
-        }
-
         System.out.println("데이터 초기화 시작...");
 
-        List<Restaurant> restaurants = MockRestaurantData.findAll().stream()
+        MockRestaurantData.findAll().stream()
                 .map(this::toEntity)
-                .toList();
+                .forEach(restaurantRepository::save);
 
-        restaurantRepository.saveAll(restaurants);
-        System.out.println("✅ " + restaurants.size() + "개의 식당 데이터를 저장했습니다.");
+        System.out.println("✅ " + MockRestaurantData.findAll().size() + "개의 식당 데이터를 저장했습니다.");
     }
 
     private Restaurant toEntity(MockRestaurant mock) {
@@ -49,19 +43,38 @@ public class DataInitializer implements CommandLineRunner {
             // 시간 형식이 이상하면 기본값(null)으로 둠.
         }
 
-        return Restaurant.builder()
-                .kakaoPlaceId(mock.kakaoPlaceId())
-                .name(mock.placeName())
-                .address(mock.address())
-                .latitude(mock.latitude())
-                .longitude(mock.longitude())
-                .rating(mock.rating().floatValue()) // Double -> Float 변환
-                .reviewCount(mock.reviewCount())
-                .category(mock.menuType())
-                .openTime(openTime)
-                .closeTime(closeTime)
-                .averagePrice(mock.averagePrice())
-                .isOpen(true) // 기본값 설정
-                .build();
+        Restaurant restaurant = restaurantRepository.findByKakaoPlaceId(mock.kakaoPlaceId())
+                .orElseGet(() -> Restaurant.builder()
+                        .kakaoPlaceId(mock.kakaoPlaceId())
+                        .name(mock.placeName())
+                        .address(mock.address())
+                        .latitude(mock.latitude())
+                        .longitude(mock.longitude())
+                        .build());
+
+        restaurant.updateMockData(
+                mock.kakaoPlaceId(),
+                mock.placeName(),
+                mock.address(),
+                mock.roadAddress(),
+                mock.latitude(),
+                mock.longitude(),
+                mock.rating().floatValue(),
+                mock.reviewCount(),
+                mock.phone(),
+                mock.placeUrl(),
+                mock.imageUrl(),
+                mock.menuType(),
+                mock.moodTags(),
+                openTime,
+                closeTime,
+                mock.averagePrice(),
+                mock.minPrice(),
+                mock.maxPrice(),
+                mock.businessHours(),
+                mock.parkingAvailable()
+        );
+
+        return restaurant;
     }
 }
