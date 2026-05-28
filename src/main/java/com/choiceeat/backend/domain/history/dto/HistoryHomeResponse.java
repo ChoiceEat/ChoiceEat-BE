@@ -30,7 +30,7 @@ public class HistoryHomeResponse {
         return HistoryHomeResponse.builder()
                 .historyId(history.getHistoryId())
                 .restaurantName(history.getRestaurant().getName())
-                .imageUrl("https://example.com/default.jpg")
+                .imageUrl(history.getRestaurant().getImageUrl())
                 .pickType(reason)
                 .build();
     }

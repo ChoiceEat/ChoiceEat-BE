@@ -6,10 +6,6 @@ import com.choiceeat.backend.domain.destination.entity.SelectedDestination;
 
 import com.choiceeat.backend.domain.destination.service.DestinationService;
 
-import com.choiceeat.backend.domain.recommendation.data.MockRestaurant;
-
-import com.choiceeat.backend.domain.recommendation.data.MockRestaurantData;
-
 import com.choiceeat.backend.domain.recommendation.dto.RecommendationRequest;
 
 import com.choiceeat.backend.domain.recommendation.dto.RecommendationRerollRequest;
@@ -21,6 +17,10 @@ import com.choiceeat.backend.domain.recommendation.dto.RecommendedRestaurantResp
 import com.choiceeat.backend.domain.recommendation.exception.RecommendationErrorCode;
 
 import com.choiceeat.backend.domain.recommendation.type.RecommendationType;
+
+import com.choiceeat.backend.domain.restaurant.entity.Restaurant;
+
+import com.choiceeat.backend.domain.restaurant.repository.RestaurantRepository;
 
 import com.choiceeat.backend.domain.setting.entity.Setting;
 
@@ -67,6 +67,7 @@ public class RecommendationService {
     private static final double EARTH_RADIUS_KM = 6371.0;
     private final AdViewService adViewService;
     private final DestinationService destinationService;
+    private final RestaurantRepository restaurantRepository;
     private final SettingRepository settingRepository;
     private final UserRepository userRepository;
 
@@ -106,9 +107,9 @@ public class RecommendationService {
 
     private RecommendationResponse recommendByCriteria(RecommendationCriteria criteria) {
         // 1차 후보 필터링
-        List<ScoredRestaurant> exactCandidates = MockRestaurantData.findAll().stream()
-                .filter(restaurant -> !criteria.excludedKakaoPlaceIds().contains(restaurant.kakaoPlaceId()))
-                .filter(restaurant -> restaurant.menuType().equals(criteria.menuType()))
+        List<ScoredRestaurant> exactCandidates = restaurantRepository.findAll().stream()
+                .filter(restaurant -> !criteria.excludedKakaoPlaceIds().contains(restaurant.getKakaoPlaceId()))
+                .filter(restaurant -> criteria.menuType().equals(restaurant.getCategory()))
                 .filter(restaurant -> containsMood(restaurant, criteria.mood()))
                 .filter(restaurant -> matchesBudget(restaurant, criteria.budget()))
                 .map(restaurant -> toScoredRestaurant(criteria, restaurant))
@@ -151,14 +152,14 @@ public class RecommendationService {
         }
 
         // 조건 일부 일치 후보
-        MockRestaurantData.findAll().stream()
-                .filter(restaurant -> !criteria.excludedKakaoPlaceIds().contains(restaurant.kakaoPlaceId()))
-                .filter(restaurant -> restaurant.menuType().equals(criteria.menuType()))
+        restaurantRepository.findAll().stream()
+                .filter(restaurant -> !criteria.excludedKakaoPlaceIds().contains(restaurant.getKakaoPlaceId()))
+                .filter(restaurant -> criteria.menuType().equals(restaurant.getCategory()))
                 .filter(restaurant -> containsMood(restaurant, criteria.mood())
                         || matchesBudget(restaurant, criteria.budget()))
                 .map(restaurant -> toScoredRestaurant(criteria, restaurant))
                 .filter(candidate -> candidate.distanceKm() <= criteria.searchRadiusKm())
-                .filter(candidate -> !containsRestaurant(candidates, candidate.restaurant().kakaoPlaceId()))
+                .filter(candidate -> !containsRestaurant(candidates, candidate.restaurant().getKakaoPlaceId()))
                 .forEach(candidates::add);
     }
 
@@ -179,14 +180,14 @@ public class RecommendationService {
                 .orElseThrow(() -> new BaseException(UserErrorCode.USER_NOT_FOUND));
     }
 
-    private ScoredRestaurant toScoredRestaurant(RecommendationCriteria criteria, MockRestaurant restaurant) {
+    private ScoredRestaurant toScoredRestaurant(RecommendationCriteria criteria, Restaurant restaurant) {
         return new ScoredRestaurant(
                 restaurant,
                 calculateDistanceKm(
                         criteria.latitude(),
                         criteria.longitude(),
-                        restaurant.latitude(),
-                        restaurant.longitude()
+                        restaurant.getLatitude(),
+                        restaurant.getLongitude()
                 )
         );
     }
@@ -200,7 +201,7 @@ public class RecommendationService {
         candidates.stream()
                 .filter(candidate -> !containsRestaurant(
                         recommendations.values(),
-                        candidate.restaurant().kakaoPlaceId()
+                        candidate.restaurant().getKakaoPlaceId()
                 ))
                 .max(Comparator.comparingDouble(scoreCalculator))
                 .ifPresent(candidate -> recommendations.put(recommendationType, candidate));
@@ -208,17 +209,19 @@ public class RecommendationService {
 
     private boolean containsRestaurant(Iterable<ScoredRestaurant> candidates, String kakaoPlaceId) {
         for (ScoredRestaurant candidate : candidates) {
-            if (candidate.restaurant().kakaoPlaceId().equals(kakaoPlaceId)) {
+            if (candidate.restaurant().getKakaoPlaceId().equals(kakaoPlaceId)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean matchesBudget(MockRestaurant restaurant, String budget) {
+    private boolean matchesBudget(Restaurant restaurant, String budget) {
         PriceRange selectedBudget = toPriceRange(budget);
-        return restaurant.maxPrice() >= selectedBudget.minPrice()
-                && restaurant.minPrice() <= selectedBudget.maxPrice();
+        int minPrice = restaurant.getMinPrice() == null ? 0 : restaurant.getMinPrice();
+        int maxPrice = restaurant.getMaxPrice() == null ? Integer.MAX_VALUE : restaurant.getMaxPrice();
+        return maxPrice >= selectedBudget.minPrice()
+                && minPrice <= selectedBudget.maxPrice();
     }
 
     private PriceRange toPriceRange(String budget) {
@@ -231,9 +234,12 @@ public class RecommendationService {
         };
     }
 
-    private boolean containsMood(MockRestaurant restaurant, String mood) {
+    private boolean containsMood(Restaurant restaurant, String mood) {
         String normalizedMood = normalizeMood(mood);
-        return restaurant.moodTags().stream()
+        if (restaurant.getMoodTags() == null) {
+            return false;
+        }
+        return restaurant.getMoodTags().stream()
                 .map(this::normalizeMood)
                 .anyMatch(normalizedMood::equals);
     }
@@ -251,21 +257,33 @@ public class RecommendationService {
     }
 
     private double calculateValueRawScore(ScoredRestaurant candidate) {
-        MockRestaurant restaurant = candidate.restaurant();
+        Restaurant restaurant = candidate.restaurant();
         // 가성비 점수
-        double priceScore = 100.0 - Math.min(restaurant.averagePrice() / 500.0, 80.0);
-        double reviewScore = Math.min(restaurant.reviewCount() / 20.0, 20.0);
+        double priceScore = 100.0 - Math.min(getAveragePrice(restaurant) / 500.0, 80.0);
+        double reviewScore = Math.min(getReviewCount(restaurant) / 20.0, 20.0);
         double distancePenalty = Math.min(candidate.distanceKm() * 4.0, 20.0);
-        return priceScore + reviewScore + restaurant.rating() * 4.0 - distancePenalty;
+        return priceScore + reviewScore + getRating(restaurant) * 4.0 - distancePenalty;
     }
 
     private double calculateQualityRawScore(ScoredRestaurant candidate) {
-        MockRestaurant restaurant = candidate.restaurant();
+        Restaurant restaurant = candidate.restaurant();
         // 퀄리티 점수
-        double ratingScore = restaurant.rating() * 20.0;
-        double reviewScore = Math.min(restaurant.reviewCount() / 15.0, 25.0);
+        double ratingScore = getRating(restaurant) * 20.0;
+        double reviewScore = Math.min(getReviewCount(restaurant) / 15.0, 25.0);
         double distancePenalty = Math.min(candidate.distanceKm() * 2.0, 15.0);
         return ratingScore + reviewScore - distancePenalty;
+    }
+
+    private int getAveragePrice(Restaurant restaurant) {
+        return restaurant.getAveragePrice() == null ? 0 : restaurant.getAveragePrice();
+    }
+
+    private int getReviewCount(Restaurant restaurant) {
+        return restaurant.getReviewCount() == null ? 0 : restaurant.getReviewCount();
+    }
+
+    private double getRating(Restaurant restaurant) {
+        return restaurant.getRating() == null ? 0.0 : restaurant.getRating();
     }
 
     private ScoreContext createScoreContext(List<ScoredRestaurant> candidates) {
@@ -322,7 +340,7 @@ public class RecommendationService {
     }
 
     private record ScoredRestaurant(
-            MockRestaurant restaurant,
+            Restaurant restaurant,
             double distanceKm
     ) {
     }

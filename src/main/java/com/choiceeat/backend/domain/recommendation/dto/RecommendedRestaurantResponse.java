@@ -1,7 +1,7 @@
 package com.choiceeat.backend.domain.recommendation.dto;
 
-import com.choiceeat.backend.domain.recommendation.data.MockRestaurant;
 import com.choiceeat.backend.domain.recommendation.type.RecommendationType;
+import com.choiceeat.backend.domain.restaurant.entity.Restaurant;
 
 import java.util.List;
 
@@ -28,29 +28,29 @@ public record RecommendedRestaurantResponse(
         Boolean parkingAvailable,
         Double distanceKm
 ) {
-    public static RecommendedRestaurantResponse from(RecommendationType recommendationType, MockRestaurant restaurant, double distanceKm) {
+    public static RecommendedRestaurantResponse from(RecommendationType recommendationType, Restaurant restaurant, double distanceKm) {
 
         return new RecommendedRestaurantResponse(
                 recommendationType.getDisplayName(),
                 recommendationType.getDescription(),
-                restaurant.kakaoPlaceId(),
-                restaurant.placeName(),
-                restaurant.address(),
-                restaurant.roadAddress(),
-                restaurant.latitude(),
-                restaurant.longitude(),
-                restaurant.phone(),
-                restaurant.placeUrl(),
-                restaurant.imageUrl(),
-                restaurant.menuType(),
-                restaurant.moodTags(),
-                restaurant.minPrice(),
-                restaurant.maxPrice(),
-                restaurant.averagePrice(),
-                restaurant.rating(),
-                restaurant.reviewCount(),
-                restaurant.businessHours(),
-                restaurant.parkingAvailable(),
+                restaurant.getKakaoPlaceId(),
+                restaurant.getName(),
+                restaurant.getAddress(),
+                restaurant.getRoadAddress(),
+                restaurant.getLatitude(),
+                restaurant.getLongitude(),
+                restaurant.getPhone(),
+                restaurant.getPlaceUrl(),
+                restaurant.getImageUrl(),
+                restaurant.getCategory(),
+                restaurant.getMoodTags(),
+                restaurant.getMinPrice(),
+                restaurant.getMaxPrice(),
+                restaurant.getAveragePrice(),
+                restaurant.getRating() == null ? null : restaurant.getRating().doubleValue(),
+                restaurant.getReviewCount(),
+                restaurant.getBusinessHours(),
+                restaurant.getParkingAvailable(),
                 Math.round(distanceKm * 10.0) / 10.0
         );
     }
