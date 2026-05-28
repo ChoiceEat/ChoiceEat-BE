@@ -42,7 +42,7 @@ public class HistoryListResponse {
         return HistoryListResponse.builder()
                 .historyId(history.getHistoryId())
                 .restaurantName(history.getRestaurant().getName())
-                .imageUrl("https://example.com/default.jpg")
+                .imageUrl(history.getRestaurant().getImageUrl())
                 .category(category)
                 .pickType(reason) // ✅ 3. 조립 완료!
                 .selectedAt(history.getSelectedAt())
