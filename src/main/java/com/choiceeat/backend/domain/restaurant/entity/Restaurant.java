@@ -94,7 +94,7 @@ public class Restaurant extends BaseEntity {
     @Column(name = "parking_available")
     private Boolean parkingAvailable;
 
-    public void updateMockData(
+    public void updateSeedData(
             String kakaoPlaceId,
             String name,
             String address,

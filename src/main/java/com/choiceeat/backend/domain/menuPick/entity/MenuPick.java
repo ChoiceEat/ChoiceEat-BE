@@ -24,7 +24,7 @@ public class MenuPick {
     @Column(nullable = false)
     private Integer price;
 
-    @Column(name = "image_url", length = 500)
+    @Column(name = "image_url", length = 2048)
     private String imageUrl;
 
     @Column(name = "mention_count", nullable = false)
