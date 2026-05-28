@@ -1,5 +1,9 @@
 package com.choiceeat.backend.global.init;
 
+import com.choiceeat.backend.domain.menuPick.data.MockMenuPick;
+import com.choiceeat.backend.domain.menuPick.data.MockMenuPickData;
+import com.choiceeat.backend.domain.menuPick.entity.MenuPick;
+import com.choiceeat.backend.domain.menuPick.repository.MenuPickRepository;
 import com.choiceeat.backend.domain.recommendation.data.MockRestaurant;
 import com.choiceeat.backend.domain.recommendation.data.MockRestaurantData;
 import com.choiceeat.backend.domain.restaurant.entity.Restaurant;
@@ -17,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 public class DataInitializer implements CommandLineRunner {
 
     private final RestaurantRepository restaurantRepository;
+    private final MenuPickRepository menuPickRepository;
 
     @Override
     @Transactional
@@ -28,6 +33,8 @@ public class DataInitializer implements CommandLineRunner {
                 .forEach(restaurantRepository::save);
 
         System.out.println("✅ " + MockRestaurantData.findAll().size() + "개의 식당 데이터를 저장했습니다.");
+
+        saveMenuPicks();
     }
 
     private Restaurant toEntity(MockRestaurant mock) {
@@ -76,5 +83,32 @@ public class DataInitializer implements CommandLineRunner {
         );
 
         return restaurant;
+    }
+
+    private void saveMenuPicks() {
+        MockMenuPickData.findAll().forEach((kakaoPlaceId, mockMenus) ->
+                restaurantRepository.findByKakaoPlaceId(kakaoPlaceId)
+                        .ifPresent(restaurant -> {
+                            menuPickRepository.deleteByRestaurant(restaurant);
+
+                            for (int i = 0; i < mockMenus.size(); i++) {
+                                MockMenuPick mockMenu = mockMenus.get(i);
+                                MenuPick menuPick = MenuPick.builder()
+                                        .restaurant(restaurant)
+                                        .menuName(mockMenu.menuName())
+                                        .price(mockMenu.price())
+                                        .imageUrl(mockMenu.imageUrl())
+                                        .rankNum(i + 1)
+                                        .mentionCount(150 - (i * 30))
+                                        .build();
+                                menuPickRepository.save(menuPick);
+                            }
+                        })
+        );
+
+        int totalMenuCount = MockMenuPickData.findAll().values().stream()
+                .mapToInt(java.util.List::size)
+                .sum();
+        System.out.println("✅ " + totalMenuCount + "개의 메뉴 데이터를 저장했습니다.");
     }
 }

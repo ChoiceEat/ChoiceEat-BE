@@ -1,17 +1,17 @@
 package com.choiceeat.backend.domain.menuPick.dto;
 
-import com.choiceeat.backend.domain.menuPick.data.MockMenuPick;
+import com.choiceeat.backend.domain.menuPick.entity.MenuPick;
 
 public record MenuPickResponse(
         String menuName,
         Integer price,
         String imageUrl
 ) {
-    public static MenuPickResponse from(MockMenuPick menu) {
+    public static MenuPickResponse from(MenuPick menu) {
         return new MenuPickResponse(
-                menu.menuName(),
-                menu.price(),
-                menu.imageUrl()
+                menu.getMenuName(),
+                menu.getPrice(),
+                menu.getImageUrl()
         );
     }
 }

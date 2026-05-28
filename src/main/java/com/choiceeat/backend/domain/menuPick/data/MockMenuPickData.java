@@ -999,6 +999,10 @@ public class MockMenuPickData {
         return MENUS_BY_KAKAO_PLACE_ID.getOrDefault(kakaoPlaceId, List.of());
     }
 
+    public static Map<String, List<MockMenuPick>> findAll() {
+        return MENUS_BY_KAKAO_PLACE_ID;
+    }
+
     public static String findRestaurantNameByKakaoPlaceId(String kakaoPlaceId) {
         return RESTAURANT_NAMES_BY_KAKAO_PLACE_ID.get(kakaoPlaceId);
     }
