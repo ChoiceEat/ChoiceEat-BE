@@ -5,11 +5,11 @@ import com.choiceeat.backend.domain.history.dto.HistoryHomeResponse;
 import com.choiceeat.backend.domain.history.dto.HistoryListResponse;
 import com.choiceeat.backend.domain.history.service.HistoryService;
 import com.choiceeat.backend.domain.user.entity.User;
+import com.choiceeat.backend.global.annotation.CurrentUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,21 +24,20 @@ public class HistoryController {
 
     @Operation(summary = "홈 화면용 히스토리 조회", description = "최근 저장된 히스토리 4개를 반환합니다.")
     @GetMapping("/home")
-    public ResponseEntity<List<HistoryHomeResponse>> getHomeHistories(@AuthenticationPrincipal User user) {
+    public ResponseEntity<List<HistoryHomeResponse>> getHomeHistories(@CurrentUser User user) {
         return ResponseEntity.ok(historyService.getHomeHistories(user));
     }
 
     @Operation(summary = "전체 히스토리 조회", description = "유저의 전체 히스토리 목록을 반환합니다.")
     @GetMapping
-    public ResponseEntity<List<HistoryListResponse>> getFullHistories(@AuthenticationPrincipal User user) {
+    public ResponseEntity<List<HistoryListResponse>> getFullHistories(@CurrentUser User user) {
         return ResponseEntity.ok(historyService.getFullHistories(user));
     }
 
     @Operation(summary = "히스토리 저장", description = "선택한 식당을 히스토리에 저장합니다.")
     @PostMapping
-    public ResponseEntity<Void> createHistory(@AuthenticationPrincipal User user,
+    public ResponseEntity<Void> createHistory(@CurrentUser User user,
                                               @RequestBody HistoryCreateRequest request) {
-        // 서비스에서 자동으로 최신 추천 기록을 찾아 연결
         historyService.createHistory(user, request);
         return ResponseEntity.ok().build();
     }
